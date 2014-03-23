@@ -1,0 +1,64 @@
+<polymer-element name="game-sprite" attributes="type devices crossable matrix movable">
+
+  <template>
+
+    <style>
+
+      :host {
+        margin: 0;
+        padding: 0;
+        min-width: 60px;
+        min-height: 60px;
+        background: rgba(104, 184, 104, 1);
+      }
+
+      img {
+        width: 60px;
+        height: 60px;
+      }
+
+      :host(.medium),
+      img.medium {
+        min-width: 75px;
+        min-height: 75px;
+      }
+
+      :host(.large),
+      img.large {
+        min-width: 90px;
+        min-height: 90px;
+      }
+
+      :host(.xlarge),
+      img.xlarge {
+        min-width: 105px;
+        min-height: 105px;
+      }
+
+      :host(.xxlarge),
+      img.xxlarge {
+        min-width: 120px;
+        min-height: 120px;
+      }
+
+    </style>
+
+    <animate-pivot id="animate"></animate-pivot>
+
+    <img on-click="{{ animate }}" src="./build/images/{{ type }}.svg" id="sprite" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" data-matrix="{{ matrix }}">
+
+  </template>
+
+  <script>
+    Polymer('game-sprite', {
+      ready : function () {
+      },
+      animate : function () {
+        var animation = this.$.animate.$.animation;
+        animation.target = this.$.sprite;
+        animation.play();
+      }
+    });
+  </script>
+
+</polymer-element>

@@ -1,0 +1,82 @@
+<link rel="import" href="../../bower_components/polymer-media-query/polymer-media-query.html">
+
+<link rel="import" href="../../bower_components/polymer-flex-layout/polymer-flex-layout.html">
+
+<link rel="import" href="../../bower_components/polymer-animation/polymer-animation.html">
+
+<link rel="import" href="game-sprite.html">
+
+<link rel="import" href="animate-pivot.html">
+
+<polymer-element name="game-stage">
+
+  <template>
+
+    <style>
+
+      :host {
+        width: 100%;
+        z-index: 1;
+      }
+
+    </style>
+
+    <polymer-media-query query="max-width: 40rem" queryMatches="{{ devices.mobile }}"></polymer-media-query>
+
+    <polymer-media-query query="(min-width: 40.063rem) and (max-width: 64rem)" queryMatches="{{ devices.medium }}"></polymer-media-query>
+
+    <polymer-media-query query="(min-width: 64.063rem) and (max-width: 90rem)" queryMatches="{{ devices.large }}"></polymer-media-query>
+
+    <polymer-media-query query="(min-width: 90.063rem) and (max-width: 120rem)" queryMatches="{{ devices.xlarge }}"></polymer-media-query>
+
+    <polymer-media-query query="min-width: 120.063rem" queryMatches="{{ devices.xxlarge }}"></polymer-media-query>
+
+      <template repeat="{{ row, i in map }}">
+
+        <polymer-flex-layout isContainer align="start" justify="start">
+
+          <template repeat="{{ sprite, j in row }}">
+
+            <game-sprite type="{{ sprite }}" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" devices="{{ devices }}" matrix="{{ i }}-{{ j }}"></game-sprite>
+
+          </template>
+
+        </polymer-flex-layout>
+
+      </template>
+
+  </template>
+
+  <script>
+
+    Polymer('game-stage', {
+      ready : function () {
+        this.devices = {},
+        this.map = [
+          [0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 1, 0, 1, 0, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 2, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 3, 0, 3, 1, 1, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ];
+      }
+    });
+
+  </script>
+
+</polymer-element>

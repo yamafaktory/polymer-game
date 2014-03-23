@@ -1,0 +1,31 @@
+<polymer-element name="animate-pivot" noscript>
+
+  <template>
+
+    <polymer-animation duration="1" id="animation">
+
+      <polymer-animation-keyframe offset="0">
+        <polymer-animation-prop name="transform" value="skewY(0)">
+        </polymer-animation-prop>
+      </polymer-animation-keyframe>
+
+      <polymer-animation-keyframe offset=".33">
+        <polymer-animation-prop name="transform" value="skewY(-10deg)">
+        </polymer-animation-prop>
+      </polymer-animation-keyframe>
+
+      <polymer-animation-keyframe offset=".66">
+        <polymer-animation-prop name="transform" value="skewY(5deg)">
+        </polymer-animation-prop>
+      </polymer-animation-keyframe>
+
+      <polymer-animation-keyframe offset="1">
+        <polymer-animation-prop name="transform" value="skewY(0deg)">
+        </polymer-animation-prop>
+      </polymer-animation-keyframe>
+
+    </polymer-animation>
+
+  </template>
+
+</polymer-element>

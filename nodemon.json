@@ -1,0 +1,11 @@
+{
+  "watch": [
+    "./src/html/",
+    "./src/css/",
+    "./src/images/svg/"
+  ],
+  "execMap": {
+    "js": "node --harmony"
+  },
+  "ext" : "css html js svg"
+}

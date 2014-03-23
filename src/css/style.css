@@ -1,0 +1,20 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: rgba(172, 239, 76, 1);
+  color: rgba(255, 255, 255, 1);
+  text-shadow: none;
+}
+
+html {
+  text-size-adjust: 100%;
+}
+
+body {
+  overflow: hidden;
+  margin: 0;
+}
