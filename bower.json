@@ -13,8 +13,9 @@
   "private": true,
   "dependencies": {
     "polymer": "~0.2.1",
-    "polymer-flex-layout": "Polymer/polymer-flex-layout#~0.2.1",
-    "polymer-media-query": "Polymer/polymer-media-query#~0.2.1",
-    "polymer-animation": "Polymer/polymer-animation#~0.2.1"
+    "polymer-flex-layout": "Polymer/polymer-flex-layout#~0.2.2",
+    "polymer-media-query": "Polymer/polymer-media-query#~0.2.2",
+    "polymer-animation": "Polymer/polymer-animation#~0.2.2",
+    "PathFinding.js": "*"
   }
 }

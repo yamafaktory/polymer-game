@@ -44,7 +44,7 @@ var expected_failures = {
   var pause1 = new Animation(null, {left: "500px"}, timing);
   var pause2 = new Animation(null, null, timing);
   var down = new Animation(document.querySelector("#a"), {top: "450px"}, timing);
-  var combo = new SeqGroup([across, pause1, pause2, down]);
+  var combo = new AnimationSequence([across, pause1, pause2, down]);
   document.timeline.play(combo);
 
   timing_test(function() {
@@ -52,7 +52,7 @@ var expected_failures = {
       assert_equals(getComputedStyle(a).getPropertyValue("left"), "450px")
       assert_equals(getComputedStyle(a).getPropertyValue("top"), "0px")
     });
-  }, "Player should do nothing for the duration of animations with null targets.")
+  }, "AnimationPlayer should do nothing for the duration of animations with null targets.")
 
   timing_test(function() {
     at(0.8, function() {
@@ -60,6 +60,6 @@ var expected_failures = {
       assert_equals(getComputedStyle(a).getPropertyValue("top"), "450px")
     });
   },
-  "Player should do nothing for duration of animations with null targets, " +
+  "AnimationPlayer should do nothing for duration of animations with null targets, " +
   "then continue with animations with real targets.") 
 </script>

@@ -1,0 +1,63 @@
+<polymer-element name="game-player" attributes="devices position">
+
+  <template>
+
+    <style>
+
+      :host {
+        margin: 0;
+        padding: 0;
+        min-width: 60px;
+        min-height: 60px;
+        background: transparent;
+        z-index: 1;
+        position: absolute;
+        top: {{ position[0] }}px;
+      }
+
+      img {
+        width: 60px;
+        height: 60px;
+      }
+
+      :host(.medium),
+      img.medium {
+        min-width: 75px;
+        min-height: 75px;
+      }
+
+      :host(.large),
+      img.large {
+        min-width: 90px;
+        min-height: 90px;
+      }
+
+      :host(.xlarge),
+      img.xlarge {
+        min-width: 105px;
+        min-height: 105px;
+      }
+
+      :host(.xxlarge),
+      img.xxlarge {
+        min-width: 120px;
+        min-height: 120px;
+      }
+
+    </style>
+
+    <img src="/build/images/player.svg" id="player" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}">
+
+  </template>
+
+  <script>
+
+    Polymer('game-player', {
+      ready : function () {
+        
+      }
+    });
+
+  </script>
+
+</polymer-element>

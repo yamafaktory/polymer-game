@@ -1,4 +1,4 @@
-<polymer-element name="game-sprite" attributes="type devices crossable matrix movable">
+<polymer-element name="game-sprite" attributes="type devices crossable matrix movable position">
 
   <template>
 
@@ -45,19 +45,20 @@
 
     <animate-pivot id="animate"></animate-pivot>
 
-    <img on-click="{{ animate }}" src="./build/images/{{ type }}.svg" id="sprite" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" data-matrix="{{ matrix }}">
+    <img src="./build/images/{{ type }}.svg" id="sprite" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" data-matrix="{{ matrix }}" on-tap="{{ locate }}">
 
   </template>
 
   <script>
     Polymer('game-sprite', {
-      ready : function () {
-      },
-      animate : function () {
+      locate : function () {
+        this.position = this.matrix;
+      }
+      /*animate : function () {
         var animation = this.$.animate.$.animation;
         animation.target = this.$.sprite;
         animation.play();
-      }
+      }*/
     });
   </script>
 

@@ -6,6 +6,8 @@
 
 <link rel="import" href="game-sprite.html">
 
+<link rel="import" href="game-player.html">
+
 <link rel="import" href="animate-pivot.html">
 
 <polymer-element name="game-stage">
@@ -16,7 +18,8 @@
 
       :host {
         width: 100%;
-        z-index: 1;
+        background: rgba(0,0,0,1);
+        z-index: 0;
       }
 
     </style>
@@ -31,13 +34,15 @@
 
     <polymer-media-query query="min-width: 120.063rem" queryMatches="{{ devices.xxlarge }}"></polymer-media-query>
 
-      <template repeat="{{ row, i in map }}">
+    <game-player class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" devices="{{ devices }}" position="{{ position }}"></game-player>
+
+      <template repeat="{{ row, i in world }}">
 
         <polymer-flex-layout isContainer align="start" justify="start">
 
           <template repeat="{{ sprite, j in row }}">
 
-            <game-sprite type="{{ sprite }}" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" devices="{{ devices }}" matrix="{{ i }}-{{ j }}"></game-sprite>
+            <game-sprite type="{{ sprite }}" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" devices="{{ devices }}" matrix="[{{ i }}, {{ j }}]" position="{{ position }}"></game-sprite>
 
           </template>
 
@@ -50,9 +55,9 @@
   <script>
 
     Polymer('game-stage', {
-      ready : function () {
-        this.devices = {},
-        this.map = [
+        position : [0, 0],
+        devices : {},
+        world : [
           [0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
           [0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0],
           [0, 0, 1, 0, 1, 0, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0],
@@ -73,8 +78,35 @@
           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        ];
-      }
+        ],
+        crossableSprites : [0, 3],
+        isCrossable : function (type) {
+          return this.crossableSprites.indexOf(type) !== -1 ? true : false;
+        },
+        toBinaryMatrix : function (world) {
+          var binaryWorld = [],
+              toBinary = function (value) {
+                return this.isCrossable(value) ? 0 : 1;
+              }.bind(this);
+          world.forEach(function (row) {
+            binaryWorld.push(row.map(toBinary));
+          });
+          return binaryWorld;
+        },
+        ready : function () {
+          console.log(this.position);
+          var binaryWorld = this.toBinaryMatrix(this.world);
+          this.grid = new PF.Grid(20, 20, binaryWorld);
+          this.finder = new PF.AStarFinder();
+        },
+        positionChanged : function () {
+          console.log(this.position);
+          //  Backup the grid as its value is changed after path-finding
+          var gridBackup = this.grid.clone(),
+              path = this.finder.findPath(0, 0, 8, 2, this.grid);
+          this.grid = gridBackup;
+          console.log(path);
+        }
     });
 
   </script>
