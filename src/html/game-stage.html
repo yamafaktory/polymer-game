@@ -36,7 +36,7 @@
 
     <polymer-media-query query="min-width: 120.063rem" queryMatches="{{ devices.xxlarge }}"></polymer-media-query>
 
-    <animate-player id="animate" duration="{{ move.duration }}" path="{{ move.path }}"></animate-player>
+    <animate-player id="animate" path="{{ move.path }}"></animate-player>
 
     <game-player class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" devices="{{ devices }}" position="{{ position }}" id="player"></game-player>
 
@@ -136,21 +136,43 @@
               this.position.to[0],
               this.position.to[1],
               this.grid
-            );
+            ),
+            //  Generate an iterative path for player animation
+            iterativePath = function () {
+              var newPath = [[0, 0]];
+              //  Start at 1 as 0 is current position
+              for (var i = 1; i < path.length; ++i) {
+                //  Test x axis first
+                if (path[i][0] === path[i-1][0]) {
+                  if (path[i][1] > path[i-1][1]) {
+                    // Greater y value
+                    newPath.push([0, 1]);
+                  } else {
+                    // Lower y value
+                    newPath.push([0, -1]);
+                  }
+                } else {
+                  if (path[i][0] > path[i-1][0]) {
+                    // Greater x value
+                    newPath.push([1, 0]);
+                  } else {
+                    // Lower x value
+                    newPath.push([-1, 0]);
+                  }
+                }
+              }
+              return newPath;
+            };
         //  Restore original grid
         this.grid = gridBackup;
         //  Player motion
-        //  First send the path to the animation element
-        this.move.path = path;
-        //  Then define the duration relative to the path in seconds
-        this.move.duration = (path.length) * .5;
-        //  Finally move the player
+        //  First send the iterative path to the animation element
+        this.move.path = iterativePath(path);
+        console.log(this.move.path);
+        //  Then move the player
         this.movePlayer();
-        //  Then set update position accordingly
+        //  Finally set update position accordingly
         this.position.from = this.position.to;
-
-        console.log(path);
-
       }
     });
 

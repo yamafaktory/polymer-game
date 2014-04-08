@@ -1,14 +1,41 @@
-<polymer-element name="animate-player" attributes="duration path">
+<polymer-element name="animate-player" attributes="path">
 
   <template>
 
-    <polymer-animation duration="{{ duration }}" id="animation">
+    <polymer-animation duration="{{ path.length / 2 }}" id="animation">
 
       <template repeat="{{ step, i in path }}">
 
-        <polymer-animation-keyframe offset="{{ (1 / path.length) * i }}">
-          <polymer-animation-prop name="transform" value="translateX(100px)">
-          </polymer-animation-prop>
+        <polymer-animation-keyframe offset="{{ (1 / (path.length - 1)) * i }}">
+
+          <template if="{{ i === 0 }}">
+
+            <polymer-animation-prop name="transform" value="translateX(0)">
+            </polymer-animation-prop>
+
+          </template>
+
+          <template if="{{ i !== 0 }}">
+
+            <template if="{{ step[0] === 1 }}">
+              <polymer-animation-prop name="transform" value="translateY(100px)">
+              </polymer-animation-prop>
+            </template>
+            <template if="{{ step[0] === -1 }}">
+              <polymer-animation-prop name="transform" value="translateY(-100px)">
+              </polymer-animation-prop>
+            </template>
+            <template if="{{ step[1] === 1 }}">
+              <polymer-animation-prop name="transform" value="translateX(100px)">
+              </polymer-animation-prop>
+            </template>
+            <template if="{{ step[1] === -1 }}">
+              <polymer-animation-prop name="transform" value="translateX(-100px)">
+              </polymer-animation-prop>
+            </template>
+
+          </template>
+
         </polymer-animation-keyframe>
 
       </template>
@@ -20,11 +47,7 @@
    <script>
 
       Polymer('animate-player', {
-        durationChanged : function () {
-          // 
-          console.log(this.duration);
-          console.log(1/this.path.length);
-        }
+        
       });
 
     </script>
