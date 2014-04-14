@@ -1,4 +1,4 @@
-<polymer-element name="game-sprite" attributes="type devices crossable movable matrix position">
+<polymer-element name="game-sprite" attributes="type devices uncrossable movable matrix position">
 
   <template>
 
@@ -10,6 +10,10 @@
         min-width: 60px;
         min-height: 60px;
         background: rgba(104, 184, 104, 1);
+      }
+
+      :host(:hover) {
+        cursor: hand;
       }
 
       img {
@@ -45,22 +49,22 @@
 
     <animate-pivot id="animate"></animate-pivot>
     
-    <img _src="./build/images/{{ type }}.svg" id="sprite" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" on-tap="{{ locate }}">
+    <img _src="./build/images/{{ type }}.svg" id="sprite" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge, uncrossable: uncrossable } | tokenList }}" on-tap="{{ locate }}">
 
   </template>
 
   <script>
     Polymer('game-sprite', {
       locate : function () {
-        //  Set sprite position from matrix
-        //  and use JSON to parse the original string
-        this.position.to = JSON.parse(this.matrix);
-      }
-      /*animate : function () {
+        //  Animate taped sprite
         var animation = this.$.animate.$.animation;
         animation.target = this.$.sprite;
         animation.play();
-      }*/
+        //  Set sprite position from matrix
+        //  and parse the original string as JSON
+        this.position.to = JSON.parse(this.matrix);
+        console.log(JSON.parse(this.matrix));
+      }
     });
   </script>
 

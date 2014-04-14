@@ -36,7 +36,7 @@
 
     <polymer-media-query query="min-width: 120.063rem" queryMatches="{{ devices.xxlarge }}"></polymer-media-query>
 
-    <animate-player id="animate" path="{{ move.path }}"></animate-player>
+    <animate-player id="animate" path="{{ path }}" devices="{{ devices }}"></animate-player>
 
     <game-player class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" devices="{{ devices }}" position="{{ position }}" id="player"></game-player>
 
@@ -46,7 +46,7 @@
 
           <template repeat="{{ sprite, j in row }}">
 
-            <game-sprite type="{{ sprite }}" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" devices="{{ devices }}" matrix="[{{ i }}, {{ j }}]" position="{{ position }}"></game-sprite>
+            <game-sprite type="{{ sprite }}" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" devices="{{ devices }}" matrix="[{{ j }}, {{ i }}]" position="{{ position }}" uncrossable=""></game-sprite>
 
           </template>
 
@@ -67,7 +67,7 @@
       //  Init devices for media queries
       devices : {},
       //  Init move object for player motion
-      move : {},
+      path : [],
       //  The world map
       world : [
         [0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -98,6 +98,7 @@
         return this.crossableSprites.indexOf(type) !== -1 ? true : false;
       },
       //  Method to convert the map as binary values
+      //  representing the crossable state of sprite
       toBinaryMatrix : function (world) {
         var binaryWorld = [],
             toBinary = function (value) {
@@ -108,69 +109,32 @@
         });
         return binaryWorld;
       },
-      //  Polymer element is ready
       ready : function () {
-        var binaryWorld = this.toBinaryMatrix(this.world);
-        this.grid = new PF.Grid(20, 20, binaryWorld);
-        this.finder = new PF.AStarFinder();
-      },
-      //  Launch player animation
-      movePlayer : function () {
-        var animation = this.$.animate.$.animation;
-        console.log(animation);
-        animation.target = this.$.player;
-        animation.play();
+        this.binaryWorld = this.toBinaryMatrix(this.world);
+        this.grid = new PF.Grid(20, 20, this.binaryWorld);
+        this.finder = new PF.AStarFinder({heuristic: PF.Heuristic.chebyshev});
+        this.animation = this.$.animate.$.animation;
+        this.animation.target = this.$.player;
+        this.animation.fill = 'forwards';
       },
       //  Set observers
       observe: {
-        'position.to': 'playerPositionHasChanged'
+        'position.to' : 'playerPositionHasChanged'
       },
       //  Player position has changed
       playerPositionHasChanged : function () {
         //  Backup the grid as its value is modified after path-finding
         //  Then use the finder to generate an array of moves
-        var gridBackup = this.grid.clone(),
-            path = this.finder.findPath(
-              this.position.from[0],
-              this.position.from[1],
-              this.position.to[0],
-              this.position.to[1],
-              this.grid
-            ),
-            //  Generate an iterative path for player animation
-            iterativePath = function () {
-              var newPath = [[0, 0]];
-              //  Start at 1 as 0 is current position
-              for (var i = 1; i < path.length; ++i) {
-                //  Test x axis first
-                if (path[i][0] === path[i-1][0]) {
-                  if (path[i][1] > path[i-1][1]) {
-                    // Greater y value
-                    newPath.push([0, 1]);
-                  } else {
-                    // Lower y value
-                    newPath.push([0, -1]);
-                  }
-                } else {
-                  if (path[i][0] > path[i-1][0]) {
-                    // Greater x value
-                    newPath.push([1, 0]);
-                  } else {
-                    // Lower x value
-                    newPath.push([-1, 0]);
-                  }
-                }
-              }
-              return newPath;
-            };
+        var gridBackup = this.grid.clone();
+        this.path = this.finder.findPath(
+          this.position.from[0],
+          this.position.from[1],
+          this.position.to[0],
+          this.position.to[1],
+          this.grid
+        );
         //  Restore original grid
         this.grid = gridBackup;
-        //  Player motion
-        //  First send the iterative path to the animation element
-        this.move.path = iterativePath(path);
-        console.log(this.move.path);
-        //  Then move the player
-        this.movePlayer();
         //  Finally set update position accordingly
         this.position.from = this.position.to;
       }

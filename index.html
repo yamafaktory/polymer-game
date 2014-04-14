@@ -22,25 +22,25 @@
   <script>Polymer("polymer-animation-prop");</script>
 </polymer-element><polymer-element name="polymer-animation" attributes="target keyframes sample composite duration fill easing iterationStart iterationCount delay direction autoplay targetSelector" assetpath="bower_components/polymer-animation/">
   <script>(function(){function findTarget(inSelector,inNode){var p=inNode;var target;while(p&&!p.host&&p!==document){p=p.parentNode}if(p){target=p.querySelector(inSelector)}if(!target&&p&&p.host){target=findTarget(inSelector,p.host)}return target}function toNumber(value,allowInfinity){return allowInfinity&&value==="Infinity"?Number.POSITIVE_INFINITY:Number(value)}Polymer("polymer-animation",{target:null,targetSelector:"",keyframes:null,sample:null,composite:"replace",duration:"auto",fill:"auto",easing:"linear",iterationStart:0,iterationCount:1,delay:0,direction:"normal",autoplay:false,animation:false,observe:{target:"apply",keyframes:"apply",sample:"apply",composite:"apply",duration:"apply",fill:"apply",easing:"apply",iterationCount:"apply",delay:"apply",direction:"apply",autoplay:"apply"},ready:function(){this.apply()},play:function(){this.apply();if(this.animation&&!this.autoplay){this.bindAnimationEvents();this.player=document.timeline.play(this.animation);return this.player}},cancel:function(){if(this.player){this.player.source=null}},hasTarget:function(){return this.target!==null},apply:function(){this.animation=null;this.animation=this.makeAnimation();if(this.autoplay&&this.animation){this.play()}return this.animation},makeSingleAnimation:function(target){target.classList.add("polymer-animation-target");return new Animation(target,this.animationEffect,this.timingProps)},makeAnimation:function(){if(!this.target){return null}var animation;if(Array.isArray(this.target)){var array=[];this.target.forEach(function(t){array.push(this.makeSingleAnimation(t))}.bind(this));animation=new ParGroup(array)}else{animation=this.makeSingleAnimation(this.target)}return animation},animationChanged:function(){this.fire("polymer-animation-change",this)},targetSelectorChanged:function(){if(this.targetSelector){this.target=findTarget(this.targetSelector,this)}},targetChanged:function(old){if(old){old.classList.remove("polymer-animation-target")}},get timingProps(){var props={};var timing={fill:{},easing:{},delay:{isNumber:true},iterationCount:{isNumber:true,allowInfinity:true},direction:{},duration:{isNumber:true}};for(t in timing){if(this[t]!==null){var name=timing[t].property||t;props[name]=timing[t].isNumber&&this[t]!=="auto"?toNumber(this[t],timing[t].allowInfinity):this[t]}}return props},get animationEffect(){var props={};var frames=[];var effect;if(this.keyframes){frames=this.keyframes}else if(!this.sample){var children=this.querySelectorAll("polymer-animation-keyframe");if(children.length===0){children=this.shadowRoot.querySelectorAll("polymer-animation-keyframe")}Array.prototype.forEach.call(children,function(c){frames.push(c.properties)})}if(this.sample){effect={sample:this.sample}}else{effect=new KeyframeEffect(frames,this.composite)}return effect},bindAnimationEvents:function(){if(!this.animation.onstart){this.animation.onstart=this.animationStartHandler.bind(this)}if(!this.animation.onend){this.animation.onend=this.animationEndHandler.bind(this)}},animationStartHandler:function(){this.fire("polymer-animation-start")},animationEndHandler:function(){this.fire("polymer-animation-end")}})})();</script>
-</polymer-element><polymer-element name="game-sprite" attributes="type devices crossable movable matrix position" assetpath="src/html/">
+</polymer-element><polymer-element name="game-sprite" attributes="type devices uncrossable movable matrix position" assetpath="src/html/">
 
   <template>
 
-    <style>:host{margin:0;padding:0;min-width:60px;min-height:60px;background:rgba(104,184,104,1)}img{width:60px;height:60px}:host(.medium),img.medium{min-width:75px;min-height:75px}:host(.large),img.large{min-width:90px;min-height:90px}:host(.xlarge),img.xlarge{min-width:105px;min-height:105px}:host(.xxlarge),img.xxlarge{min-width:120px;min-height:120px}</style>
+    <style>:host{margin:0;padding:0;min-width:60px;min-height:60px;background:rgba(104,184,104,1)}:host(:hover){cursor:hand}img{width:60px;height:60px}:host(.medium),img.medium{min-width:75px;min-height:75px}:host(.large),img.large{min-width:90px;min-height:90px}:host(.xlarge),img.xlarge{min-width:105px;min-height:105px}:host(.xxlarge),img.xxlarge{min-width:120px;min-height:120px}</style>
 
     <animate-pivot id="animate"></animate-pivot>
     
-    <img _src="./build/images/{{ type }}.svg" id="sprite" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" on-tap="{{ locate }}">
+    <img _src="./build/images/{{ type }}.svg" id="sprite" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge, uncrossable: uncrossable } | tokenList }}" on-tap="{{ locate }}">
 
   </template>
 
-  <script>Polymer("game-sprite",{locate:function(){this.position.to=JSON.parse(this.matrix)}});</script>
+  <script>Polymer("game-sprite",{locate:function(){var animation=this.$.animate.$.animation;animation.target=this.$.sprite;animation.play();this.position.to=JSON.parse(this.matrix);console.log(JSON.parse(this.matrix))}});</script>
 
 </polymer-element><polymer-element name="game-player" attributes="devices position" assetpath="src/html/">
 
   <template>
 
-    <style>:host{margin:0;padding:0;min-width:60px;min-height:60px;background:0 0;z-index:1;position:absolute;top:{{position[0]}img{width:60px;height:60px}:host(.medium),img.medium{min-width:75px;min-height:75px}:host(.large),img.large{min-width:90px;min-height:90px}:host(.xlarge),img.xlarge{min-width:105px;min-height:105px}:host(.xxlarge),img.xxlarge{min-width:120px;min-height:120px}</style>
+    <style>:host{margin:0;padding:0;min-width:60px;min-height:60px;background:0 0;z-index:1;position:absolute;top:0}img{width:60px;height:60px}:host(.medium),img.medium{min-width:75px;min-height:75px}:host(.large),img.large{min-width:90px;min-height:90px}:host(.xlarge),img.xlarge{min-width:105px;min-height:105px}:host(.xxlarge),img.xxlarge{min-width:120px;min-height:120px}</style>
 
     <img src="/build/images/player.svg" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}">
 
@@ -83,42 +83,39 @@
 
   </template>
 
-</polymer-element><polymer-element name="animate-player" attributes="path" assetpath="src/html/">
+</polymer-element><polymer-element name="animate-player" attributes="path devices" assetpath="src/html/">
 
   <template>
 
-    <polymer-animation duration="{{ path.length / 2 }}" id="animation">
+    <polymer-animation duration="{{ path.length / 4 }}" id="animation">
 
       <template repeat="{{ step, i in path }}">
 
         <polymer-animation-keyframe offset="{{ (1 / (path.length - 1)) * i }}">
 
-          <template if="{{ i === 0 }}">
-
-            <polymer-animation-prop name="transform" value="translateX(0)">
+          <template if="{{ devices.mobile }}">
+            <polymer-animation-prop name="transform" value="translate({{ step[0] * 60 }}px, {{ step[1] * 60 }}px)">
             </polymer-animation-prop>
-
           </template>
 
-          <template if="{{ i !== 0 }}">
+          <template if="{{ devices.medium }}">
+            <polymer-animation-prop name="transform" value="translate({{ step[0] * 75 }}px, {{ step[1] * 75 }}px)">
+            </polymer-animation-prop>
+          </template>
 
-            <template if="{{ step[0] === 1 }}">
-              <polymer-animation-prop name="transform" value="translateY(100px)">
-              </polymer-animation-prop>
-            </template>
-            <template if="{{ step[0] === -1 }}">
-              <polymer-animation-prop name="transform" value="translateY(-100px)">
-              </polymer-animation-prop>
-            </template>
-            <template if="{{ step[1] === 1 }}">
-              <polymer-animation-prop name="transform" value="translateX(100px)">
-              </polymer-animation-prop>
-            </template>
-            <template if="{{ step[1] === -1 }}">
-              <polymer-animation-prop name="transform" value="translateX(-100px)">
-              </polymer-animation-prop>
-            </template>
+          <template if="{{ devices.large }}">
+            <polymer-animation-prop name="transform" value="translate({{ step[0] * 90 }}px, {{ step[1] * 90 }}px)">
+            </polymer-animation-prop>
+          </template>
 
+          <template if="{{ devices.xlarge }}">
+            <polymer-animation-prop name="transform" value="translate({{ step[0] * 105 }}px, {{ step[1] * 105 }}px)">
+            </polymer-animation-prop>
+          </template>
+
+          <template if="{{ devices.xxlarge }}">
+            <polymer-animation-prop name="transform" value="translate({{ step[0] * 120 }}px, {{ step[1] * 120 }}px)">
+            </polymer-animation-prop>
           </template>
 
         </polymer-animation-keyframe>
@@ -129,7 +126,7 @@
 
   </template>
 
-   <script>Polymer("animate-player",{});</script>
+   <script>Polymer("animate-player",{path:[[0,0]],pathChanged:function(){this.async(this.play)},play:function(){this.$.animation.play()}});</script>
 
   </polymer-element><polymer-element name="game-stage" assetpath="src/html/">
 
@@ -147,7 +144,7 @@
 
     <polymer-media-query query="min-width: 120.063rem" querymatches="{{ devices.xxlarge }}"></polymer-media-query>
 
-    <animate-player id="animate" path="{{ move.path }}"></animate-player>
+    <animate-player id="animate" path="{{ path }}" devices="{{ devices }}"></animate-player>
 
     <game-player class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" devices="{{ devices }}" position="{{ position }}" id="player"></game-player>
 
@@ -157,7 +154,7 @@
 
           <template repeat="{{ sprite, j in row }}">
 
-            <game-sprite type="{{ sprite }}" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" devices="{{ devices }}" matrix="[{{ i }}, {{ j }}]" position="{{ position }}"></game-sprite>
+            <game-sprite type="{{ sprite }}" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" devices="{{ devices }}" matrix="[{{ j }}, {{ i }}]" position="{{ position }}" uncrossable=""></game-sprite>
 
           </template>
 
@@ -167,7 +164,7 @@
 
   </template>
 
-  <script>Polymer("game-stage",{position:{from:[0,0],to:[0,0]},devices:{},move:{},world:[[0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0],[0,1,1,0,0,1,0,0,0,0,0,2,0,0,0,0,0,0,0,0],[0,0,1,0,1,0,0,0,0,3,0,0,0,3,0,0,3,0,0,0],[0,0,0,0,0,0,2,0,3,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,3,0,3,1,1,0,0,0,3,3,0,0,0,0,0,0,0,0],[0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],crossableSprites:[0,3],isCrossable:function(type){return this.crossableSprites.indexOf(type)!==-1?true:false},toBinaryMatrix:function(world){var binaryWorld=[],toBinary=function(value){return this.isCrossable(value)?0:1}.bind(this);world.forEach(function(row){binaryWorld.push(row.map(toBinary))});return binaryWorld},ready:function(){var binaryWorld=this.toBinaryMatrix(this.world);this.grid=new PF.Grid(20,20,binaryWorld);this.finder=new PF.AStarFinder},movePlayer:function(){var animation=this.$.animate.$.animation;console.log(animation);animation.target=this.$.player;animation.play()},observe:{"position.to":"playerPositionHasChanged"},playerPositionHasChanged:function(){var gridBackup=this.grid.clone(),path=this.finder.findPath(this.position.from[0],this.position.from[1],this.position.to[0],this.position.to[1],this.grid),iterativePath=function(){var newPath=[[0,0]];for(var i=1;i<path.length;++i){if(path[i][0]===path[i-1][0]){if(path[i][1]>path[i-1][1]){newPath.push([0,1])}else{newPath.push([0,-1])}}else{if(path[i][0]>path[i-1][0]){newPath.push([1,0])}else{newPath.push([-1,0])}}}return newPath};this.grid=gridBackup;this.move.path=iterativePath(path);console.log(this.move.path);this.movePlayer();this.position.from=this.position.to}});</script>
+  <script>Polymer("game-stage",{position:{from:[0,0],to:[0,0]},devices:{},path:[],world:[[0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0],[0,1,1,0,0,1,0,0,0,0,0,2,0,0,0,0,0,0,0,0],[0,0,1,0,1,0,0,0,0,3,0,0,0,3,0,0,3,0,0,0],[0,0,0,0,0,0,2,0,3,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,3,0,3,1,1,0,0,0,3,3,0,0,0,0,0,0,0,0],[0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],crossableSprites:[0,3],isCrossable:function(type){return this.crossableSprites.indexOf(type)!==-1?true:false},toBinaryMatrix:function(world){var binaryWorld=[],toBinary=function(value){return this.isCrossable(value)?0:1}.bind(this);world.forEach(function(row){binaryWorld.push(row.map(toBinary))});return binaryWorld},ready:function(){this.binaryWorld=this.toBinaryMatrix(this.world);this.grid=new PF.Grid(20,20,this.binaryWorld);this.finder=new PF.AStarFinder({heuristic:PF.Heuristic.chebyshev});this.animation=this.$.animate.$.animation;this.animation.target=this.$.player;this.animation.fill="forwards"},observe:{"position.to":"playerPositionHasChanged"},playerPositionHasChanged:function(){var gridBackup=this.grid.clone();this.path=this.finder.findPath(this.position.from[0],this.position.from[1],this.position.to[0],this.position.to[1],this.grid);this.grid=gridBackup;this.position.from=this.position.to}});</script>
 
 </polymer-element><game-stage></game-stage></body>
 </html>

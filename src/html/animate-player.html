@@ -1,39 +1,36 @@
-<polymer-element name="animate-player" attributes="path">
+<polymer-element name="animate-player" attributes="path devices">
 
   <template>
 
-    <polymer-animation duration="{{ path.length / 2 }}" id="animation">
+    <polymer-animation duration="{{ path.length / 4 }}" id="animation">
 
       <template repeat="{{ step, i in path }}">
 
         <polymer-animation-keyframe offset="{{ (1 / (path.length - 1)) * i }}">
 
-          <template if="{{ i === 0 }}">
-
-            <polymer-animation-prop name="transform" value="translateX(0)">
+          <template if="{{ devices.mobile }}">
+            <polymer-animation-prop name="transform" value="translate({{ step[0] * 60 }}px, {{ step[1] * 60 }}px)">
             </polymer-animation-prop>
-
           </template>
 
-          <template if="{{ i !== 0 }}">
+          <template if="{{ devices.medium }}">
+            <polymer-animation-prop name="transform" value="translate({{ step[0] * 75 }}px, {{ step[1] * 75 }}px)">
+            </polymer-animation-prop>
+          </template>
 
-            <template if="{{ step[0] === 1 }}">
-              <polymer-animation-prop name="transform" value="translateY(100px)">
-              </polymer-animation-prop>
-            </template>
-            <template if="{{ step[0] === -1 }}">
-              <polymer-animation-prop name="transform" value="translateY(-100px)">
-              </polymer-animation-prop>
-            </template>
-            <template if="{{ step[1] === 1 }}">
-              <polymer-animation-prop name="transform" value="translateX(100px)">
-              </polymer-animation-prop>
-            </template>
-            <template if="{{ step[1] === -1 }}">
-              <polymer-animation-prop name="transform" value="translateX(-100px)">
-              </polymer-animation-prop>
-            </template>
+          <template if="{{ devices.large }}">
+            <polymer-animation-prop name="transform" value="translate({{ step[0] * 90 }}px, {{ step[1] * 90 }}px)">
+            </polymer-animation-prop>
+          </template>
 
+          <template if="{{ devices.xlarge }}">
+            <polymer-animation-prop name="transform" value="translate({{ step[0] * 105 }}px, {{ step[1] * 105 }}px)">
+            </polymer-animation-prop>
+          </template>
+
+          <template if="{{ devices.xxlarge }}">
+            <polymer-animation-prop name="transform" value="translate({{ step[0] * 120 }}px, {{ step[1] * 120 }}px)">
+            </polymer-animation-prop>
           </template>
 
         </polymer-animation-keyframe>
@@ -47,7 +44,13 @@
    <script>
 
       Polymer('animate-player', {
-        
+        path : [[0, 0]],
+        pathChanged : function () {
+          this.async(this.play);
+        },
+        play : function () {
+          this.$.animation.play();
+        }
       });
 
     </script>
