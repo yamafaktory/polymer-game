@@ -49,21 +49,23 @@
 
     <animate-pivot id="animate"></animate-pivot>
     
-    <img _src="./build/images/{{ type }}.svg" id="sprite" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge, uncrossable: uncrossable } | tokenList }}" on-tap="{{ locate }}">
+    <img _src="./build/images/{{ type }}.svg" id="sprite" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge, uncrossable: uncrossable } | tokenList }}" on-click="{{ locate }}">
 
   </template>
 
   <script>
     Polymer('game-sprite', {
+      publish : {
+        path : {value: true, reflect: true}
+      },
       locate : function () {
-        //  Animate taped sprite
+        //  Animate sprite
         var animation = this.$.animate.$.animation;
         animation.target = this.$.sprite;
         animation.play();
         //  Set sprite position from matrix
         //  and parse the original string as JSON
         this.position.to = JSON.parse(this.matrix);
-        console.log(JSON.parse(this.matrix));
       }
     });
   </script>

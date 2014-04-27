@@ -5,14 +5,20 @@
   "private": true,
   "devDependencies": {
     "bower": "*",
+    "browserify": "*",
+    "es6ify": "*",
     "gulp": "*",
     "gulp-imagemin": "*",
+    "gulp-livereload": "*",
+    "gulp-jshint": "*",
     "gulp-myth": "*",
     "gulp-nodemon": "*",
     "gulp-svgmin": "*",
     "gulp-vulcanize": "*",
+    "gulp-uglify": "*",
     "koa": "*",
     "koa-static": "*",
-    "myth": "*"
+    "myth": "*",
+    "vinyl-source-stream": "*"
   }
 }

@@ -5,17 +5,17 @@
     {
       "name": "Davy Duperron",
       "email": "yamafaktory@gmail.com",
-      " homepage": "http://github.com/yamafaktory"
+      "homepage": "http://github.com/yamafaktory"
     }
   ],
   "description": "svg game based on polymer",
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "polymer": "~0.2.1",
-    "polymer-flex-layout": "Polymer/polymer-flex-layout#~0.2.2",
-    "polymer-media-query": "Polymer/polymer-media-query#~0.2.2",
-    "polymer-animation": "Polymer/polymer-animation#~0.2.2",
+    "polymer": "Polymer/polymer#0.2.3",
+    "polymer-animation": "Polymer/polymer-animation#master",
+    "core-media-query": "Polymer/core-media-query#master",
+    "core-layout": "Polymer/core-layout#master",
     "PathFinding.js": "*"
   }
 }

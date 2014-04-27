@@ -1,6 +1,6 @@
-var static  = require('koa-static'),
-    koa     = require('koa'),
-    app     = koa();
+var static  = require('koa-static');
+var koa     = require('koa');
+var app     = koa();
 
 //  Static folders
 app.use(static(__dirname + '/'));

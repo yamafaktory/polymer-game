@@ -1,8 +1,8 @@
-<link rel="import" href="../../bower_components/polymer-media-query/polymer-media-query.html">
-
-<link rel="import" href="../../bower_components/polymer-flex-layout/polymer-flex-layout.html">
-
 <link rel="import" href="../../bower_components/polymer-animation/polymer-animation.html">
+
+<link rel="import" href="../../bower_components/core-layout/core-layout.html">
+
+<link rel="import" href="../../bower_components/core-media-query/core-media-query.html">
 
 <link rel="import" href="game-sprite.html">
 
@@ -12,7 +12,7 @@
 
 <link rel="import" href="animate-player.html">
 
-<polymer-element name="game-stage">
+<polymer-element name="game-stage" attributes="world">
 
   <template>
 
@@ -26,15 +26,15 @@
 
     </style>
 
-    <polymer-media-query query="max-width: 40rem" queryMatches="{{ devices.mobile }}"></polymer-media-query>
+    <core-media-query query="max-width: 40rem" queryMatches="{{ devices.mobile }}"></core-media-query>
 
-    <polymer-media-query query="(min-width: 40.063rem) and (max-width: 64rem)" queryMatches="{{ devices.medium }}"></polymer-media-query>
+    <core-media-query query="(min-width: 40.063rem) and (max-width: 64rem)" queryMatches="{{ devices.medium }}"></core-media-query>
 
-    <polymer-media-query query="(min-width: 64.063rem) and (max-width: 90rem)" queryMatches="{{ devices.large }}"></polymer-media-query>
+    <core-media-query query="(min-width: 64.063rem) and (max-width: 90rem)" queryMatches="{{ devices.large }}"></core-media-query>
 
-    <polymer-media-query query="(min-width: 90.063rem) and (max-width: 120rem)" queryMatches="{{ devices.xlarge }}"></polymer-media-query>
+    <core-media-query query="(min-width: 90.063rem) and (max-width: 120rem)" queryMatches="{{ devices.xlarge }}"></core-media-query>
 
-    <polymer-media-query query="min-width: 120.063rem" queryMatches="{{ devices.xxlarge }}"></polymer-media-query>
+    <core-media-query query="min-width: 120.063rem" queryMatches="{{ devices.xxlarge }}"></core-media-query>
 
     <animate-player id="animate" path="{{ path }}" devices="{{ devices }}"></animate-player>
 
@@ -42,15 +42,15 @@
 
       <template repeat="{{ row, i in world }}">
 
-        <polymer-flex-layout isContainer align="start" justify="start">
+        <core-layout flow="h" align="start" justify="start">
 
           <template repeat="{{ sprite, j in row }}">
 
-            <game-sprite type="{{ sprite }}" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" devices="{{ devices }}" matrix="[{{ j }}, {{ i }}]" position="{{ position }}" uncrossable=""></game-sprite>
+            <game-sprite type="{{ sprite }}" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" devices="{{ devices }}" matrix="[{{ j }}, {{ i }}]" position="{{ position }}" uncrossable="{{ binaryWorld }}"></game-sprite>
 
           </template>
 
-        </polymer-flex-layout>
+        </core-layout>
 
       </template>
 
@@ -59,67 +59,26 @@
   <script>
 
     Polymer('game-stage', {
+      //  Init devices for media queries
+      devices : {},
+      //  Init move object for player motion
+      path : [],
       // Init player position
       position : {
         from : [0, 0],
         to   : [0, 0]
       },
-      //  Init devices for media queries
-      devices : {},
-      //  Init move object for player motion
-      path : [],
-      //  The world map
-      world : [
-        [0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 1, 0, 1, 0, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 2, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 3, 0, 3, 1, 1, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-      ],
-      //  Define which sprites are crossable
-      crossableSprites : [0, 3],
-      //  Method to test if a sprite is crossable
-      isCrossable : function (type) {
-        return this.crossableSprites.indexOf(type) !== -1 ? true : false;
-      },
-      //  Method to convert the map as binary values
-      //  representing the crossable state of sprite
-      toBinaryMatrix : function (world) {
-        var binaryWorld = [],
-            toBinary = function (value) {
-              return this.isCrossable(value) ? 0 : 1;
-            }.bind(this);
-        world.forEach(function (row) {
-          binaryWorld.push(row.map(toBinary));
-        });
-        return binaryWorld;
-      },
+      //  Init world map
+      world : [],
       ready : function () {
-        this.binaryWorld = this.toBinaryMatrix(this.world);
-        this.grid = new PF.Grid(20, 20, this.binaryWorld);
-        this.finder = new PF.AStarFinder({heuristic: PF.Heuristic.chebyshev});
         this.animation = this.$.animate.$.animation;
         this.animation.target = this.$.player;
         this.animation.fill = 'forwards';
       },
       //  Set observers
       observe: {
-        'position.to' : 'playerPositionHasChanged'
+        'position.to' : 'playerPositionHasChanged',
+        'world' : 'worldHasChanged'
       },
       //  Player position has changed
       playerPositionHasChanged : function () {
@@ -137,6 +96,10 @@
         this.grid = gridBackup;
         //  Finally set update position accordingly
         this.position.from = this.position.to;
+      },
+      worldHasChanged : function () {
+        this.grid = new PF.Grid(20, 20, this.world);
+        this.finder = new PF.AStarFinder({heuristic: PF.Heuristic.chebyshev});
       }
     });
 

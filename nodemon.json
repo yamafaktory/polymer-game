@@ -2,7 +2,8 @@
   "watch": [
     "./src/html/",
     "./src/css/",
-    "./src/images/svg/"
+    "./src/images/svg/",
+    "./src/js/"
   ],
   "execMap": {
     "js": "node --harmony"
