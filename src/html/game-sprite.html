@@ -55,9 +55,6 @@
 
   <script>
     Polymer('game-sprite', {
-      publish : {
-        path : {value: true, reflect: true}
-      },
       locate : function () {
         //  Animate sprite
         var animation = this.$.animate.$.animation;
@@ -65,6 +62,7 @@
         animation.play();
         //  Set sprite position from matrix
         //  and parse the original string as JSON
+        console.log(this.position.to);
         this.position.to = JSON.parse(this.matrix);
       }
     });

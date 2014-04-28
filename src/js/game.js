@@ -12,5 +12,7 @@ window.addEventListener('polymer-ready', function(event) {
   //  Select game stage
   var gameStage = document.querySelector('game-stage');
   //  Init world property 
-  gameStage.world = polyworld.binaryMap;
+  gameStage.world = polyworld.map;
+  //  Init binary map property 
+  gameStage.binaryMap = polyworld.binaryMap;
 });
