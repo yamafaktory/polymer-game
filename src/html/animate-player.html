@@ -1,4 +1,4 @@
-<polymer-element name="animate-player" attributes="path devices">
+<polymer-element name="animate-player" attributes="animationLock path devices">
 
   <template>
 
@@ -44,15 +44,12 @@
    <script>
 
       Polymer('animate-player', {
-        animationLock : false,
         ready : function () {
           this.addEventListener('polymer-animation-start', function(event) {
             this.animationLock = true;
-            console.log('start');
           }.bind(this));
           this.addEventListener('polymer-animation-end', function(event) {
             this.animationLock = false;
-            console.log('end');
           }.bind(this));
         },
         pathChanged : function () {
