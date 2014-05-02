@@ -1,4 +1,4 @@
-<polymer-element name="game-sprite" attributes="animationLock devices matrix movable position type uncrossable">
+<polymer-element name="game-sprite" attributes="animationLock binaryMap devices matrix movable position type">
 
   <template>
 
@@ -49,22 +49,23 @@
 
     <animate-pivot id="animate"></animate-pivot>
     
-    <img src="./build/images/{{ type }}.svg" id="sprite" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge, uncrossable: uncrossable } | tokenList }}" on-click="{{ locate }}">
+    <img src="./build/images/{{ type }}.svg" id="sprite" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" on-click="{{ locate }}">
 
   </template>
 
   <script>
     Polymer('game-sprite', {
+      coordinates : [],
       locate : function () {
-        if (this.animationLock === false) {
-          console.log(this.uncrossable);
+        var x = JSON.parse(this.matrix)[0];
+        var y = JSON.parse(this.matrix)[1];
+        if (this.animationLock === false && this.binaryMap[y][x] === 0) {
           //  Animate sprite
           var animation = this.$.animate.$.animation;
           animation.target = this.$.sprite;
           animation.play();
           //  Set sprite position from matrix
           //  and parse the original string as JSON
-          console.log(this.position.to);
           this.position.to = JSON.parse(this.matrix);
         }
       }

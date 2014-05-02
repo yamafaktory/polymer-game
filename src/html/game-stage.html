@@ -46,7 +46,7 @@
 
           <template repeat="{{ sprite, j in row }}">
 
-            <game-sprite type="{{ sprite }}" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" animationLock="{{ animationLock }}" devices="{{ devices }}" matrix="[{{ j }}, {{ i }}]" position="{{ position }}" uncrossable="{{ binaryMap | toBinarySprite(j, i) }}"></game-sprite>
+            <game-sprite type="{{ sprite }}" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" animationLock="{{ animationLock }}" devices="{{ devices }}" matrix="[{{ j }}, {{ i }}]" position="{{ position }}" binaryMap="{{ binaryMap }}"></game-sprite>
 
           </template>
 
@@ -105,10 +105,6 @@
         this.grid = gridBackup;
         //  Finally set update position accordingly
         this.position.from = this.position.to;
-      },
-      //
-      toBinarySprite : function (value, j, i) {
-        return value[j][i];
       },
       worldHasChanged : function () {
         this.grid = new PF.Grid(20, 20, this.binaryMap);

@@ -15,7 +15,7 @@
     "gulp-nodemon": "*",
     "gulp-svgmin": "*",
     "gulp-vulcanize": "*",
-    "gulp-uglify": "*",
+    "jshint-stylish": "*",
     "koa": "*",
     "koa-static": "*",
     "myth": "*",

@@ -8,13 +8,13 @@ var nodemon     = require('gulp-nodemon');
 var source      = require('vinyl-source-stream');
 var svgmin      = require('gulp-svgmin');
 var vulcanize   = require('gulp-vulcanize');
-//var uglify      = require('gulp-uglify');
 
 es6ify.traceurOverrides = { blockBinding: true };
 
-var tasks = ['myth', 'svgmin', 'compile', 'vulcanize'];
+var scripts = ['./*.js', './src/js/*.js'];
+var tasks   = ['myth', 'svgmin', 'test', 'compile', 'vulcanize'];
 
-gulp.task('compile', function() {
+gulp.task('compile', function () {
   return browserify()
     .add(es6ify.runtime)
     .transform(es6ify)
@@ -22,6 +22,12 @@ gulp.task('compile', function() {
     .bundle({ debug: true })
     .pipe(source('game.js'))
     .pipe(gulp.dest('./build/js'));
+});
+
+gulp.task('test', function () {
+  return gulp.src(scripts)
+    .pipe(jshint('.jshintrc'))
+    .pipe(jshint.reporter('jshint-stylish'));
 });
 
 gulp.task('myth', function () {
@@ -33,8 +39,8 @@ gulp.task('myth', function () {
 gulp.task('nodemon', function () {
   return nodemon({ script: 'server.js'})
     .on('start', tasks)
-    .on('change', tasks)
-})
+    .on('change', tasks);
+});
 
 gulp.task('svgmin', function () {
   return gulp.src('./src/images/svg/*.svg')
