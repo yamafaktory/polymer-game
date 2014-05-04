@@ -8,11 +8,13 @@ var polyworld = new World();
 polyworld.toBinaryMatrix();
 
 //  Add polymer event listener
-window.addEventListener('polymer-ready', function(event) {
-  //  Select game stage
-  var gameStage = document.querySelector('game-stage');
-  //  Init world property 
-  gameStage.world = polyworld.map;
-  //  Init binary map property 
-  gameStage.binaryMap = polyworld.binaryMap;
-});
+window.addEventListener('polymer-ready',
+  event => {
+    //  Select game stage
+    var gameStage = document.querySelector('game-stage');
+    //  Init world property 
+    gameStage.world = polyworld.map;
+    //  Init binary map property 
+    gameStage.binaryMap = polyworld.binaryMap;
+  }
+);

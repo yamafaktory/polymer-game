@@ -38,7 +38,7 @@
 
     <animate-player id="animate" animationLock="{{ animationLock }}" devices="{{ devices }}" path="{{ path }}"></animate-player>
 
-    <game-player class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" devices="{{ devices }}" position="{{ position }}" id="player"></game-player>
+    <game-player class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" devices="{{ devices }}" id="player"></game-player>
 
       <template repeat="{{ row, i in world }}">
 
@@ -76,7 +76,7 @@
       //  Init devices for media queries
       devices : {},
       //  Init move object for player motion
-      path : [],
+      path : [0, 0],
       //  Init world map
       world : [],
       ready : function () {
@@ -85,9 +85,9 @@
         this.animation.fill = 'forwards';
       },
       //  Set observers
-      observe: {
-        'position.to'   : 'playerPositionHasChanged',
-        'world'         : 'worldHasChanged'
+      observe : {
+        'position.to' : 'playerPositionHasChanged',
+        'world'       : 'worldHasChanged'
       },
       //  Player position has changed
       playerPositionHasChanged : function () {
