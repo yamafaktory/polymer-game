@@ -1,5 +1,5 @@
 <html>
-  <head><title>Game</title><meta charset="utf8"><meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><meta name="keywords" content="Game, SVG"><meta name="description" content="A game"><meta name="author" content="Davy Duperron"><script src="bower_components/PathFinding.js/lib/pathfinding-browser.min.js"></script><script src="bower_components/platform/platform.js"></script><link href="build/css/style.css" rel="stylesheet"></head>
+  <head><title>Game</title><meta charset="utf8"><meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><meta name="keywords" content="Game, SVG"><meta name="description" content="A game"><meta name="author" content="Davy Duperron"><script src="bower_components/platform/platform.js"></script><script src="bower_components/PathFinding.js/lib/pathfinding-browser.min.js"></script><link href="build/css/style.css" rel="stylesheet"></head>
   <body unresolved=""><polymer-element name="polymer-body" extends="body" assetpath="bower_components/polymer/">
 <script>document.addEventListener("polymer-ready",function(){Polymer("polymer-body",Platform.mixin({created:function(){this.template=document.createElement("template");var body=wrap(document).body;var c$=body.childNodes.array();for(var i=0,c;c=c$[i];i++){if(c.localName!=="script"){this.template.content.appendChild(c)}}window.model=this},parseDeclaration:function(elementElement){this.lightFromTemplate(this.template)}},window.model))});</script>
 </polymer-element><script src="bower_components/polymer/polymer.js"></script><script src="bower_components/web-animations-js/web-animations.js"></script><polymer-element name="polymer-animation-keyframe" attributes="offset value easing" assetpath="bower_components/polymer-animation/">
@@ -36,7 +36,7 @@
 
   </template>
 
-  <script>Polymer("game-sprite",{coordinates:[],locate:function(){var x=JSON.parse(this.matrix)[0];var y=JSON.parse(this.matrix)[1];if(this.animationLock===false&&this.binaryMap[y][x]===0){var animation=this.$.animate.$.animation;animation.target=this.$.sprite;animation.play();this.position.to=JSON.parse(this.matrix)}}});</script>
+  <script>Polymer("game-sprite",{publish:{position:{value:{from:[0,0],to:[0,0]},reflect:true}},created:function(){this.coordinates=[]},locate:function(){var x=JSON.parse(this.matrix)[0];var y=JSON.parse(this.matrix)[1];if(this.animationLock===false&&this.binaryMap[y][x]===0){var animation=this.$.animate.$.animation;animation.target=this.$.sprite;animation.play();this.position.to=JSON.parse(this.matrix)}}});</script>
 
 </polymer-element><polymer-element name="game-player" attributes="devices" assetpath="src/html/">
 
@@ -166,7 +166,7 @@
 
   </template>
 
-  <script>Polymer("game-stage",{publish:{position:{value:{from:[0,0],to:[0,0]},reflect:true}},animationLock:false,binaryMap:[],devices:{},path:[0,0],world:[],ready:function(){this.animation=this.$.animate.$.animation;this.animation.target=this.$.player;this.animation.fill="forwards"},observe:{"position.to":"playerPositionHasChanged",world:"worldHasChanged"},playerPositionHasChanged:function(){var gridBackup=this.grid.clone();this.path=this.finder.findPath(this.position.from[0],this.position.from[1],this.position.to[0],this.position.to[1],this.grid);this.grid=gridBackup;this.position.from=this.position.to},worldHasChanged:function(){this.grid=new PF.Grid(20,20,this.binaryMap);this.finder=new PF.AStarFinder({heuristic:PF.Heuristic.chebyshev})}});</script>
+  <script>Polymer("game-stage",{created:function(){this.animationLock=false;this.binaryMap=[];this.devices={};this.path=[0,0];this.position={from:[0,0],to:[0,0]};this.world=[]},observe:{"position.to":"playerPositionHasChanged",world:"worldHasChanged"},ready:function(){this.animation=this.$.animate.$.animation;this.animation.target=this.$.player;this.animation.fill="forwards"},playerPositionHasChanged:function(){var gridBackup=this.grid.clone();this.path=this.finder.findPath(this.position.from[0],this.position.from[1],this.position.to[0],this.position.to[1],this.grid);this.grid=gridBackup;this.position.from=this.position.to},worldHasChanged:function(){this.grid=new PF.Grid(20,20,this.binaryMap);this.finder=new PF.AStarFinder({heuristic:PF.Heuristic.chebyshev})}});</script>
 
 </polymer-element><game-stage></game-stage><script src="build/js/game.js"></script></body>
 </html>

@@ -16,5 +16,4 @@ window.addEventListener('polymer-ready',
     gameStage.world = polyworld.map;
     //  Init binary map property 
     gameStage.binaryMap = polyworld.binaryMap;
-  }
-);
+  });

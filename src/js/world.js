@@ -40,4 +40,4 @@ export class World {
     this.map.forEach(row => this.binaryMap.push(row.map(toBinary)));
   }
 
-  }
+}

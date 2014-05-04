@@ -59,35 +59,32 @@
   <script>
 
     Polymer('game-stage', {
-      publish : {
+      created : function () {
+        //  Create a lock to define either or not the player is in motion
+        this.animationLock = false;
+        //  Init binary map for pathfinding
+        this.binaryMap = [];
+        //  Init devices for media queries
+        this.devices = {};
+        //  Init move object for player motion
+        this.path = [0, 0];
         // Init player position
-        position : {
-          value : {
-            from : [0, 0],
-            to   : [0, 0]
-          },
-          reflect : true
-        }
-      },
-      //  Create a lock to define either or not the player is in motion
-      animationLock : false,
-      //  Init binary map for pathfinding
-      binaryMap : [],
-      //  Init devices for media queries
-      devices : {},
-      //  Init move object for player motion
-      path : [0, 0],
-      //  Init world map
-      world : [],
-      ready : function () {
-        this.animation = this.$.animate.$.animation;
-        this.animation.target = this.$.player;
-        this.animation.fill = 'forwards';
+        this.position = {
+          from : [0, 0],
+          to   : [0, 0]
+        };
+        //  Init world map
+        this.world = [];
       },
       //  Set observers
       observe : {
         'position.to' : 'playerPositionHasChanged',
         'world'       : 'worldHasChanged'
+      },
+      ready : function () {
+        this.animation = this.$.animate.$.animation;
+        this.animation.target = this.$.player;
+        this.animation.fill = 'forwards';
       },
       //  Player position has changed
       playerPositionHasChanged : function () {
