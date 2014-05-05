@@ -79,19 +79,20 @@ All three boxes should end up the same color as the outline.
 </div>
 
 <script>
-var expected_failures = {
-  '/Auto .*/': {
-    msie: true,
-    message: "IE returns rgba always."
+var expected_failures = [
+  {
+    browser_configurations: [{ msie: true }],
+    tests: ['Auto.*'],
+    message: 'IE returns rgba always.',
   }
-};
+];
 </script>
 <script src="../bootstrap.js"></script>
 <script>
 "use strict";
 
 var dt = document.timeline;
-var timing = {duration: 2, fill: 'forwards'};
+var timing = {duration: 2 * 1000, fill: 'forwards'};
 
 dt.play(new Animation(document.querySelector("#a"),
     [{backgroundColor: "red"}, {backgroundColor: "green"}], timing));

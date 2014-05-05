@@ -12,7 +12,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "polymer": "Polymer/polymer#0.2.3",
+    "polymer": "Polymer/polymer#master",
     "polymer-animation": "PolymerLabs/polymer-animation#master",
     "core-media-query": "Polymer/core-media-query#master",
     "core-layout": "Polymer/core-layout#master",

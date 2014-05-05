@@ -15,6 +15,10 @@
         top: 0;
       }
 
+      :host(:hover) {
+        cursor: hand;
+      }
+
       img {
         width: 60px;
         height: 60px;
@@ -46,15 +50,20 @@
 
     </style>
 
-    <img src="/build/images/player.svg" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}">
+    <animate-pulse id="animate"></animate-pulse>
+
+    <img src="/build/images/player.svg" id="player" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" on-click="{{ pulse }}">
 
   </template>
 
   <script>
 
     Polymer('game-player', {
-      ready : function () {
-        
+      pulse : function () {
+        //  Animate player
+        var animation = this.$.animate.$.animation;
+        animation.target = this.$.player;
+        animation.play();
       }
     });
 

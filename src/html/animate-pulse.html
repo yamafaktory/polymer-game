@@ -1,0 +1,36 @@
+<polymer-element name="animate-pulse" noscript>
+
+  <template>
+
+    <polymer-animation duration="500" id="animation">
+
+      <polymer-animation-keyframe offset="0">
+        <polymer-animation-prop name="transform" value="scale(1)">
+        </polymer-animation-prop>
+      </polymer-animation-keyframe>
+
+      <polymer-animation-keyframe offset=".5">
+        <polymer-animation-prop name="transform" value="scale(1.4)">
+        </polymer-animation-prop>
+      </polymer-animation-keyframe>
+
+      <polymer-animation-keyframe offset=".7">
+        <polymer-animation-prop name="transform" value="scale(.7)">
+        </polymer-animation-prop>
+      </polymer-animation-keyframe>
+
+      <polymer-animation-keyframe offset=".8">
+        <polymer-animation-prop name="transform" value="scale(1.2)">
+        </polymer-animation-prop>
+      </polymer-animation-keyframe>
+
+      <polymer-animation-keyframe offset="1">
+        <polymer-animation-prop name="transform" value="scale(1)">
+        </polymer-animation-prop>
+      </polymer-animation-keyframe>
+
+    </polymer-animation>
+
+  </template>
+
+</polymer-element>

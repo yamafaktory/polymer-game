@@ -24,11 +24,11 @@
     "test",
     "tests"
   ],
-  "_release": "f57300b911",
+  "_release": "7b8ff389d5",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "f57300b9116f14d7011efcf6311bd0aa91c3b81f"
+    "commit": "7b8ff389d5ad891f6ab8f82b2e3230dbb5191370"
   },
   "_source": "git://github.com/qiao/PathFinding.js.git",
   "_target": "*",

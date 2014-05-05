@@ -2,18 +2,17 @@
   "name": "core-component-page",
   "private": true,
   "dependencies": {
-    "platform": "Polymer/platform#0.2.3",
-    "core-action-icons": "Polymer/core-action-icons#0.2.3"
+    "platform": "Polymer/platform#master",
+    "core-action-icons": "Polymer/core-action-icons#master"
   },
-  "version": "0.2.3",
   "homepage": "https://github.com/Polymer/core-component-page",
-  "_release": "0.2.3",
+  "_release": "b9a4d7a13c",
   "_resolution": {
-    "type": "version",
-    "tag": "0.2.3",
-    "commit": "37d68bb980da41a03aa08c2a59ad3ccf0f42cf10"
+    "type": "branch",
+    "branch": "master",
+    "commit": "b9a4d7a13c7cc67c0c07962fcafa4ddd1ff36a61"
   },
   "_source": "git://github.com/Polymer/core-component-page.git",
-  "_target": "0.2.3",
+  "_target": "master",
   "_originalSource": "Polymer/core-component-page"
 }

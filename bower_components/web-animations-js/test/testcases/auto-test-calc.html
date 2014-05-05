@@ -113,20 +113,23 @@ completely cover the light red box when the animation has finished.
 </div>
 
 <script>
-var expected_failures = {
-  'Auto generated tests at t=0.5s': {
-    firefox: true,
-    msie: true,
-    message: "Floating point issues."
+var expected_failures = [
+  {
+    browser_configurations: [
+      { firefox: true },
+      { msie: true },
+    ],
+    tests: ['Auto generated tests at t=500ms'],
+    message: 'Floating point issues.',
   }
-};
+];
 </script>
 <script src="../bootstrap.js"></script>
 <script>
 "use strict";
 
 var dt = document.timeline;
-var timing = {duration: 2, fill: 'forwards'};
+var timing = {duration: 2 * 1000, fill: 'forwards'};
 
 dt.play(new Animation(document.querySelector(".outer"),
     {width: "800px"}, timing));

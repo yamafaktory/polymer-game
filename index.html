@@ -17,14 +17,14 @@
   
   </template>
   
-  <script>(function(){Polymer("core-layout",{isContainer:false,vertical:false,justify:"",align:"",reverse:false,layoutPrefix:"core-",registerCallback:function(polymerElement){var template=polymerElement.querySelector("template");this.styles=template.content.querySelectorAll("style").array();this.styles.forEach(function(s){s.removeAttribute("no-shim")})},fetchTemplate:function(){return null},attached:function(){this.installScopeStyle(this.styles[0]);if(this.children.length){this.isContainer=true}var container=this.isContainer?this:this.parentNode;var forHost=container instanceof ShadowRoot;if(forHost){this.installScopeStyle(this.styles[1],"host");container=container.host||document.body}this.layoutContainer=container},detached:function(){this.layoutContainer=null},layoutContainerChanged:function(old){this.style.display=this.layoutContainer===this?null:"none";this.verticalChanged();this.alignChanged();this.justifyChanged()},setLayoutClass:function(prefix,old,newValue){if(this.layoutContainer){prefix=this.layoutPrefix+prefix;if(old){this.layoutContainer.classList.remove(prefix+old)}if(newValue){this.layoutContainer.classList.add(prefix+newValue)}}},verticalChanged:function(old){old=old?"column":"row";var vertical=this.vertical?"v":"h";this.setLayoutClass("",old,vertical)},alignChanged:function(old){this.setLayoutClass("align-",old,this.align)},justifyChanged:function(old){this.setLayoutClass("justify-",old,this.justify)},reverseChanged:function(old){old=old?"reverse":"";var newValue=this.reverse?"reverse":"";this.setLayoutClass("",old,newValue)}})})();</script>
+  <script>(function(){Polymer("core-layout",{isContainer:false,vertical:false,justify:"",align:"",reverse:false,layoutPrefix:"core-",registerCallback:function(polymerElement){var template=polymerElement.querySelector("template");this.styles=template.content.querySelectorAll("style").array();this.styles.forEach(function(s){s.removeAttribute("no-shim")})},fetchTemplate:function(){return null},attached:function(){this.installScopeStyle(this.styles[0]);if(this.children.length){this.isContainer=true}var container=this.isContainer?this:this.parentNode;var forHost=container instanceof ShadowRoot;if(forHost){this.installScopeStyle(this.styles[1],"host");container=container.host||document.body}this.layoutContainer=container},detached:function(){this.layoutContainer=null},layoutContainerChanged:function(old){this.style.display=this.layoutContainer===this?null:"none";this.verticalChanged();this.alignChanged();this.justifyChanged()},setLayoutClass:function(prefix,old,newValue){if(this.layoutContainer){prefix=this.layoutPrefix+prefix;if(old){this.layoutContainer.classList.remove(prefix+old)}if(newValue){this.layoutContainer.classList.add(prefix+newValue)}}},verticalChanged:function(old){old=old?"v":"h";var vertical=this.vertical?"v":"h";this.setLayoutClass("",old,vertical)},alignChanged:function(old){this.setLayoutClass("align-",old,this.align)},justifyChanged:function(old){this.setLayoutClass("justify-",old,this.justify)},reverseChanged:function(old){old=old?"reverse":"";var newValue=this.reverse?"reverse":"";this.setLayoutClass("",old,newValue)}})})();</script>
 
 </polymer-element><polymer-element name="core-media-query" attributes="query queryMatches" assetpath="bower_components/core-media-query/">
   <template>
     <style>:host{display:none}</style>
   </template>
   <script>Polymer("core-media-query",{queryMatches:false,query:"",ready:function(){this._mqHandler=this.queryHandler.bind(this);this._mq=null},queryChanged:function(){if(this._mq){this._mq.removeListener(this._mqHandler)}var query=this.query;if(query[0]!=="("){query="("+this.query+")"}this._mq=window.matchMedia(query);this._mq.addListener(this._mqHandler);this.queryHandler(this._mq)},queryHandler:function(mq){this.queryMatches=mq.matches;this.asyncFire("core-media-change",mq)}});</script>
-</polymer-element><polymer-element name="game-sprite" attributes="animationLock binaryMap devices matrix movable position type" assetpath="src/html/">
+</polymer-element><polymer-element name="game-sprite" attributes="animationLock binaryMap devices matrix position type" assetpath="src/html/">
 
   <template>
 
@@ -36,25 +36,27 @@
 
   </template>
 
-  <script>Polymer("game-sprite",{publish:{position:{value:{from:[0,0],to:[0,0]},reflect:true}},created:function(){this.coordinates=[]},locate:function(){var x=JSON.parse(this.matrix)[0];var y=JSON.parse(this.matrix)[1];if(this.animationLock===false&&this.binaryMap[y][x]===0){var animation=this.$.animate.$.animation;animation.target=this.$.sprite;animation.play();this.position.to=JSON.parse(this.matrix)}}});</script>
+  <script>Polymer("game-sprite",{created:function(){this.coordinates=[]},locate:function(){var x=JSON.parse(this.matrix)[0];var y=JSON.parse(this.matrix)[1];if(this.animationLock===false&&this.binaryMap[y][x]===0){var animation=this.$.animate.$.animation;animation.target=this.$.sprite;animation.play();this.position.to=JSON.parse(this.matrix)}}});</script>
 
 </polymer-element><polymer-element name="game-player" attributes="devices" assetpath="src/html/">
 
   <template>
 
-    <style>:host{margin:0;padding:0;min-width:60px;min-height:60px;background:0 0;z-index:1;position:absolute;top:0}img{width:60px;height:60px}:host(.medium),img.medium{min-width:75px;min-height:75px}:host(.large),img.large{min-width:90px;min-height:90px}:host(.xlarge),img.xlarge{min-width:105px;min-height:105px}:host(.xxlarge),img.xxlarge{min-width:120px;min-height:120px}</style>
+    <style>:host{margin:0;padding:0;min-width:60px;min-height:60px;background:0 0;z-index:1;position:absolute;top:0}:host(:hover){cursor:hand}img{width:60px;height:60px}:host(.medium),img.medium{min-width:75px;min-height:75px}:host(.large),img.large{min-width:90px;min-height:90px}:host(.xlarge),img.xlarge{min-width:105px;min-height:105px}:host(.xxlarge),img.xxlarge{min-width:120px;min-height:120px}</style>
 
-    <img src="/build/images/player.svg" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}">
+    <animate-pulse id="animate"></animate-pulse>
+
+    <img src="/build/images/player.svg" id="player" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" on-click="{{ pulse }}">
 
   </template>
 
-  <script>Polymer("game-player",{ready:function(){}});</script>
+  <script>Polymer("game-player",{pulse:function(){var animation=this.$.animate.$.animation;animation.target=this.$.player;animation.play()}});</script>
 
 </polymer-element><polymer-element name="animate-pivot" noscript="" assetpath="src/html/">
 
   <template>
 
-    <polymer-animation duration=".3" id="animation">
+    <polymer-animation duration="300" id="animation">
 
       <polymer-animation-keyframe offset="0">
         <polymer-animation-prop name="transform" value="skewY(0)">
@@ -85,11 +87,46 @@
 
   </template>
 
+</polymer-element><polymer-element name="animate-pulse" noscript="" assetpath="src/html/">
+
+  <template>
+
+    <polymer-animation duration="500" id="animation">
+
+      <polymer-animation-keyframe offset="0">
+        <polymer-animation-prop name="transform" value="scale(1)">
+        </polymer-animation-prop>
+      </polymer-animation-keyframe>
+
+      <polymer-animation-keyframe offset=".5">
+        <polymer-animation-prop name="transform" value="scale(1.4)">
+        </polymer-animation-prop>
+      </polymer-animation-keyframe>
+
+      <polymer-animation-keyframe offset=".7">
+        <polymer-animation-prop name="transform" value="scale(.7)">
+        </polymer-animation-prop>
+      </polymer-animation-keyframe>
+
+      <polymer-animation-keyframe offset=".8">
+        <polymer-animation-prop name="transform" value="scale(1.2)">
+        </polymer-animation-prop>
+      </polymer-animation-keyframe>
+
+      <polymer-animation-keyframe offset="1">
+        <polymer-animation-prop name="transform" value="scale(1)">
+        </polymer-animation-prop>
+      </polymer-animation-keyframe>
+
+    </polymer-animation>
+
+  </template>
+
 </polymer-element><polymer-element name="animate-player" attributes="animationLock path devices" assetpath="src/html/">
 
   <template>
 
-    <polymer-animation duration="{{ path.length / 4 }}" id="animation">
+    <polymer-animation duration="{{ (path.length * 1000) / 4 }}" id="animation">
 
       <template repeat="{{ step, i in path }}">
 

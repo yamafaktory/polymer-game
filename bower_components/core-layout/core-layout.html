@@ -261,7 +261,7 @@ You may also use the `core-layout` stylesheet directly:
       },
 
       verticalChanged: function(old) {
-        old = old ? 'column' : 'row';
+        old = old ? 'v' : 'h';
         var vertical = this.vertical ? 'v' : 'h';
         this.setLayoutClass('', old, vertical);
       },

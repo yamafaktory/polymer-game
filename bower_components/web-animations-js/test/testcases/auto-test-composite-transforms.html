@@ -62,12 +62,13 @@ limitations under the License.
 <div style="height: 700px;"></div>
 
 <script>
-var expected_failures = {
-  'Auto generated tests at t=2s': {
-    msie: true,
-    message: "Floating point issues."
+var expected_failures = [
+  {
+    browser_configurations: [{ msie: true }],
+    tests: ['Auto generated tests at t=2000ms'],
+    message: 'Floating point issues.',
   }
-};
+];
 </script>
 <script src="../bootstrap.js"></script>
 <script>
@@ -77,7 +78,7 @@ var divs = document.querySelectorAll(".anim");
 
 var dt = document.timeline;
 
-var timing = {duration: 2, fill: 'forwards'};
+var timing = {duration: 2 * 1000, fill: 'forwards'};
 
 dt.play(new Animation(divs[0],
     [{transform: "translate(0px, 0px)"}, {transform: "translate(200px, 0px)"}],

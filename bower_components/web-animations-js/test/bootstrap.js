@@ -160,29 +160,6 @@ var is_svg_attrib = function(property, target) {
 
 var svg_namespace_uri = 'http://www.w3.org/2000/svg';
 
-window.test_features = (function() {
-  var style = document.createElement('style');
-  style.textContent = '' +
-     'dummyRuleForTesting {' +
-     'width: calc(0px);' +
-     'width: -webkit-calc(0px); }';
-  document.head.appendChild(style);
-  var transformCandidates = [
-    'transform',
-    'webkitTransform',
-    'msTransform'
-  ];
-  var transformProperty = transformCandidates.filter(function(property) {
-    return property in style.sheet.cssRules[0].style;
-  })[0];
-  var calcFunction = style.sheet.cssRules[0].style.width.split('(')[0];
-  document.head.removeChild(style);
-  return {
-    transformProperty: transformProperty,
-    calcFunction: calcFunction
-  };
-})();
-
 /**
  * Figure out a useful name for an element.
  *
@@ -360,11 +337,7 @@ function _assert_style_element(object, style, description) {
 
       prop_value = '' + prop_value;
 
-      if (prop_name == 'transform') {
-        var output_prop_name = test_features.transformProperty;
-      } else {
-        var output_prop_name = prop_name;
-      }
+      var output_prop_name = _WebAnimationsTestingUtilities._prefixProperty(prop_name);
 
       var is_svg = is_svg_attrib(prop_name, object);
       if (is_svg) {
@@ -517,7 +490,7 @@ window.assert_styles = assert_styles;
  * Schedule something to be called at a given time.
  *
  * @constructor
- * @param {number} millis Microseconds after start at which the callback should
+ * @param {number} millis Milliseconds after start at which the callback should
  *   be called.
  * @param {bool} autostart Auto something...
  */
@@ -1159,15 +1132,15 @@ function timing_test(f, desc) {
   /**
    * at function inside a timing_test function allows testing things at a
    * given time rather then onload.
-   * @param {number} seconds Seconds after page load to run the tests.
+   * @param {number} millis Milliseconds after page load to run the tests.
    * @param {function()} f Closure containing the asserts to be run.
    * @param {string} desc Description 
    */
-  var at = function(seconds, f, desc_at) {
-    assert_true(typeof seconds == 'number', "at's first argument shoud be a number.");
-    assert_true(!isNaN(seconds), "at's first argument should be a number not NaN!");
-    assert_true(seconds >= 0, "at's first argument should be greater then 0.");
-    assert_true(isFinite(seconds), "at's first argument should be finite.");
+  var at = function(millis, f, desc_at) {
+    assert_true(typeof millis == 'number', "at's first argument shoud be a number.");
+    assert_true(!isNaN(millis), "at's first argument should be a number not NaN!");
+    assert_true(millis >= 0, "at's first argument should be greater then 0.");
+    assert_true(isFinite(millis), "at's first argument should be finite.");
 
     assert_true(typeof f == 'function', "at's second argument should be a function.");
 
@@ -1181,9 +1154,9 @@ function timing_test(f, desc) {
       desc_at = 'Unnamed assert';
     }
 
-    var t = async_test(desc_at + ' at t=' + seconds + 's');
+    var t = async_test(desc_at + ' at t=' + millis + 'ms');
     t.f = f;
-    window.testharness_timeline.schedule(t, seconds * 1000.0);
+    window.testharness_timeline.schedule(t, millis);
   };
   override_at(at, f);
 }
@@ -1197,14 +1170,14 @@ function test_without_at(f, desc) {
 
 /**
  * at function schedules a to be called at a given point.
- * @param {number} seconds Seconds after page load to run the function.
+ * @param {number} millis Milliseconds after page load to run the function.
  * @param {function()} f Function to be called. Called with no arguments
  */
-function at(seconds, f) {
-  assert_true(typeof seconds == 'number', "at's first argument shoud be a number.");
+function at(millis, f) {
+  assert_true(typeof millis == 'number', "at's first argument shoud be a number.");
   assert_true(typeof f == 'function', "at's second argument should be a function.");
 
-  window.testharness_timeline.schedule(f, seconds * 1000.0);
+  window.testharness_timeline.schedule(f, millis);
 }
 
 window.testharness_after_loaded = function() {
@@ -1300,5 +1273,7 @@ if (testType() != 'unit') {
   window.performance.now = null;
   window.Date.now = testharness_timeline.now.bind(testharness_timeline);
 }
+
+window.inExploreMode = inExploreMode;
 
 })();
