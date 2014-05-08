@@ -9,7 +9,7 @@ var source      = require('vinyl-source-stream');
 var svgmin      = require('gulp-svgmin');
 var vulcanize   = require('gulp-vulcanize');
 
-es6ify.traceurOverrides = { blockBinding: true };
+es6ify.traceurOverrides = { blockBinding: true};
 
 var scripts = ['./*.js', './src/js/*.js'];
 var tasks   = ['myth', 'svgmin', 'test', 'compile', 'vulcanize'];

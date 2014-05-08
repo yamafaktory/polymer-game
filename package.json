@@ -19,6 +19,7 @@
     "koa": "*",
     "koa-static": "*",
     "myth": "*",
+    "pathfinding": "*",
     "vinyl-source-stream": "*"
   }
 }

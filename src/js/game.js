@@ -1,3 +1,6 @@
+//  Include pathfinding library
+var pathFinding = require('pathfinding');
+
 //  Import classes
 import {World} from './world';
 
@@ -12,8 +15,10 @@ window.addEventListener('polymer-ready',
   event => {
     //  Select game stage
     var gameStage = document.querySelector('game-stage');
-    //  Init world property 
+    //
+    gameStage.pathFinding = pathFinding;
+    //  Init world property
     gameStage.world = polyworld.map;
-    //  Init binary map property 
+    //  Init binary map property
     gameStage.binaryMap = polyworld.binaryMap;
   });
