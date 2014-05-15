@@ -1,4 +1,4 @@
-//  Include pathfinding library
+//  Include npm pathfinding library
 var pathFinding = require('pathfinding');
 
 //  Import classes

@@ -11,8 +11,20 @@ var vulcanize   = require('gulp-vulcanize');
 
 es6ify.traceurOverrides = { blockBinding: true};
 
-var scripts = ['./*.js', './src/js/*.js'];
-var tasks   = ['myth', 'svgmin', 'test', 'compile', 'vulcanize'];
+var scripts = [
+  './*.js',
+  './src/js/*.js',
+  './src/html/animate-player.html',
+  './src/html/animate-sprite.html',
+  './src/html/game-stage.html'
+];
+var tasks = [
+  'myth',
+  'svgmin',
+  'test',
+  'compile',
+  'vulcanize'
+];
 
 gulp.task('compile', function () {
   return browserify()
@@ -26,6 +38,7 @@ gulp.task('compile', function () {
 
 gulp.task('test', function () {
   return gulp.src(scripts)
+    .pipe(jshint.extract())
     .pipe(jshint('.jshintrc'))
     .pipe(jshint.reporter('jshint-stylish'));
 });
@@ -56,3 +69,4 @@ gulp.task('vulcanize', function () {
 });
 
 gulp.task('default', ['nodemon']);
+gulp.task('lint', ['test']);
