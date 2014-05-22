@@ -16,6 +16,7 @@ var scripts = [
   './src/js/*.js',
   './src/html/animate-player.html',
   './src/html/animate-sprite.html',
+  './src/html/game-sprite.html',
   './src/html/game-stage.html'
 ];
 var tasks = [

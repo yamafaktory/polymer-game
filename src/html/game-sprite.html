@@ -47,8 +47,10 @@
 
     </style>
 
-    <animate-pivot id="animate"></animate-pivot>
-    
+    <animate-pivot id="pivot"></animate-pivot>
+
+    <animate-pulse id="pulse"></animate-pulse>
+
     <img src="./build/images/{{ type }}.svg" id="sprite" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" on-click="{{ locate }}">
 
   </template>
@@ -59,16 +61,23 @@
         this.coordinates = [];
       },
       locate : function () {
+        var animation;
         var x = JSON.parse(this.matrix)[0];
         var y = JSON.parse(this.matrix)[1];
-        if (this.animationLock === false && this.binaryMap[y][x] === 0) {
+        //  Check if player is not in motion
+        if (this.animationLock === false) {
+          //  If crossable
+          if (this.binaryMap[y][x] === 0) {
+            animation = this.$.pivot.$.animation;
+            //  Set sprite position from matrix
+            //  and parse the original string as JSON
+            this.position.to = JSON.parse(this.matrix);
+          } else {
+            animation = this.$.pulse.$.animation;
+          }
           //  Animate sprite
-          var animation = this.$.animate.$.animation;
           animation.target = this.$.sprite;
           animation.play();
-          //  Set sprite position from matrix
-          //  and parse the original string as JSON
-          this.position.to = JSON.parse(this.matrix);
         }
       }
     });
