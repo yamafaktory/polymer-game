@@ -50,7 +50,9 @@
 
     </style>
 
-    <animate-pulse id="animate"></animate-pulse>
+    <animate-pulse id="pulse"></animate-pulse>
+
+    <animate-walk id="walk"></animate-walk>
 
     <img src="/build/images/player.svg" id="player" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" on-click="{{ pulse }}">
 
@@ -59,10 +61,18 @@
   <script>
 
     Polymer('game-player', {
-      pulse : function () {
-        //  Animate player
-        var animation = this.$.animate.$.animation;
+      test : function () {
+        var animation = this.$.walk.$.animation;
         animation.target = this.$.player;
+        animation.iterationCount = 10;
+        animation.play();
+      },
+      //  Animate player on click
+      pulse : function () {
+        var animation = this.$.pulse.$.animation;
+        animation.target = this.$.player;
+        animation.iterationCount = 'Infinity';
+        console.log(animation);
         animation.play();
       }
     });

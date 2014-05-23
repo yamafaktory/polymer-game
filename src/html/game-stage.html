@@ -8,11 +8,15 @@
 
 <link rel="import" href="game-player.html">
 
+<link rel="import" href="animate-heighten.html">
+
 <link rel="import" href="animate-pivot.html">
+
+<link rel="import" href="animate-player.html">
 
 <link rel="import" href="animate-pulse.html">
 
-<link rel="import" href="animate-player.html">
+<link rel="import" href="animate-walk.html">
 
 <polymer-element name="game-stage" attributes="world binaryMap pathFinding">
 
@@ -38,7 +42,7 @@
 
     <core-media-query query="min-width: 120.063rem" queryMatches="{{ devices.xxlarge }}"></core-media-query>
 
-    <animate-player id="animate" animationLock="{{ animationLock }}" devices="{{ devices }}" path="{{ path }}"></animate-player>
+    <animate-player id="move" animationLock="{{ animationLock }}" devices="{{ devices }}" path="{{ path }}"></animate-player>
 
     <game-player class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" devices="{{ devices }}" id="player"></game-player>
 
@@ -84,7 +88,7 @@
         'world'       : 'worldHasChanged'
       },
       ready : function () {
-        this.animation = this.$.animate.$.animation;
+        this.animation = this.$.move.$.animation;
         this.animation.target = this.$.player;
         this.animation.fill = 'forwards';
       },

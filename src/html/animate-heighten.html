@@ -1,0 +1,41 @@
+<polymer-element name="animate-heighten" noscript>
+
+  <template>
+
+    <polymer-animation duration="300" id="animation">
+
+      <polymer-animation-keyframe offset="0">
+        <polymer-animation-prop name="transform" value="scaleY(1)">
+        <polymer-animation-prop name="transform-origin" value="0% 100%">
+        </polymer-animation-prop>
+      </polymer-animation-keyframe>
+
+      <polymer-animation-keyframe offset=".25">
+        <polymer-animation-prop name="transform" value="scaleY(1.2)">
+        <polymer-animation-prop name="transform-origin" value="0% 100%">
+        </polymer-animation-prop>
+      </polymer-animation-keyframe>
+
+      <polymer-animation-keyframe offset=".50">
+        <polymer-animation-prop name="transform" value="scaleY(0.8)">
+        <polymer-animation-prop name="transform-origin" value="0% 100%">
+        </polymer-animation-prop>
+      </polymer-animation-keyframe>
+
+      <polymer-animation-keyframe offset=".75">
+        <polymer-animation-prop name="transform" value="scaleY(1.1)">
+        <polymer-animation-prop name="transform-origin" value="0% 100%">
+        </polymer-animation-prop>
+      </polymer-animation-keyframe>
+
+      <polymer-animation-keyframe offset="1">
+        <polymer-animation-prop name="transform" value="scaleY(1)">
+        <polymer-animation-prop name="transform-origin" value="0% 100%">
+        </polymer-animation-prop>
+      </polymer-animation-keyframe>
+
+    </polymer-animation>
+
+  </template>
+
+</polymer-element>

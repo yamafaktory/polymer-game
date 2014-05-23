@@ -47,9 +47,9 @@
 
     </style>
 
-    <animate-pivot id="pivot"></animate-pivot>
+    <animate-heighten id="heighten"></animate-heighten>
 
-    <animate-pulse id="pulse"></animate-pulse>
+    <animate-pivot id="pivot"></animate-pivot>
 
     <img src="./build/images/{{ type }}.svg" id="sprite" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" on-click="{{ locate }}">
 
@@ -73,7 +73,7 @@
             //  and parse the original string as JSON
             this.position.to = JSON.parse(this.matrix);
           } else {
-            animation = this.$.pulse.$.animation;
+            animation = this.$.heighten.$.animation;
           }
           //  Animate sprite
           animation.target = this.$.sprite;
