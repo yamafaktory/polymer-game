@@ -63,16 +63,15 @@
     Polymer('game-player', {
       test : function () {
         var animation = this.$.walk.$.animation;
-        animation.target = this.$.player;
         animation.iterationCount = 10;
+        animation.target = this.$.player;
+        console.log(animation);
         animation.play();
       },
       //  Animate player on click
       pulse : function () {
         var animation = this.$.pulse.$.animation;
         animation.target = this.$.player;
-        animation.iterationCount = 'Infinity';
-        console.log(animation);
         animation.play();
       }
     });
