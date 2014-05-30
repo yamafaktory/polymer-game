@@ -2,7 +2,7 @@
 
   <template>
 
-    <core-animation duration="2000" id="animation">
+    <core-animation duration="2000" id="animation" iterations="Infinity" direction="alternate">
 
       <core-animation-keyframe offset="0">
         <core-animation-prop name="transform" value="translateY(0)">
@@ -10,17 +10,17 @@
       </core-animation-keyframe>
 
       <core-animation-keyframe offset=".25">
-        <core-animation-prop name="transform" value="translateY(4px)">
+        <core-animation-prop name="transform" value="translateY(8px)">
         </core-animation-prop>
       </core-animation-keyframe>
 
       <core-animation-keyframe offset=".50">
-        <core-animation-prop name="transform" value="translateY(-2px)">
+        <core-animation-prop name="transform" value="translateY(-4px)">
         </core-animation-prop>
       </core-animation-keyframe>
 
       <core-animation-keyframe offset=".75">
-        <core-animation-prop name="transform" value="translateY(1px)">
+        <core-animation-prop name="transform" value="translateY(2px)">
         </core-animation-prop>
       </core-animation-keyframe>
 

@@ -16,7 +16,6 @@
     "core-animation": "Polymer/core-animation#master",
     "core-layout": "Polymer/core-layout#master",
     "core-localstorage": "Polymer/core-localstorage#master",
-    "core-media-query": "Polymer/core-media-query#master",
-    "PathFinding.js": "*"
+    "core-media-query": "Polymer/core-media-query#master"
   }
 }

@@ -127,8 +127,8 @@
       //  Player position has changed
       playerPositionHasChanged : function () {
         //  Backup the grid as its value is modified after path-finding
-        //  Then use the finder to generate an array of moves
         var gridBackup = this.grid.clone();
+        //  Then use the finder to generate an array of moves
         this.path = this.finder.findPath(
           this.position.from[0],
           this.position.from[1],
@@ -144,7 +144,6 @@
         //this.backupPosition = this.position.to;
         //this.backupPositionX = 0;
         //this.backupPositionY = 0;
-        console.log('-----------');
       },
       worldHasChanged : function () {
         //  Reuse pathfinding library object's name
