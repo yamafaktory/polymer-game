@@ -1,23 +1,15 @@
-<link rel="import" href="../../bower_components/polymer-animation/polymer-animation.html">
-
+<link rel="import" href="../../bower_components/core-animation/core-animation.html">
 <link rel="import" href="../../bower_components/core-layout/core-layout.html">
-
 <link rel="import" href="../../bower_components/core-localstorage/core-localstorage.html">
-
 <link rel="import" href="../../bower_components/core-media-query/core-media-query.html">
 
+<link rel="import" href="game-player.html">
 <link rel="import" href="game-sprite.html">
 
-<link rel="import" href="game-player.html">
-
 <link rel="import" href="animate-heighten.html">
-
 <link rel="import" href="animate-pivot.html">
-
 <link rel="import" href="animate-player.html">
-
 <link rel="import" href="animate-pulse.html">
-
 <link rel="import" href="animate-walk.html">
 
 <polymer-element name="game-stage" attributes="world binaryMap pathFinding">
@@ -48,7 +40,7 @@
 
     <animate-player id="move" animationLock="{{ animationLock }}" devices="{{ devices }}" path="{{ path }}"></animate-player>
 
-    <game-player class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" devices="{{ devices }}" id="player"></game-player>
+    <game-player class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" devices="{{ devices }}" style="top: {{ backupPositionY }}; left: {{ backupPositionX }}" id="player"></game-player>
 
       <template repeat="{{ row, i in world }}">
 
@@ -72,6 +64,8 @@
       created : function () {
         //  Create a lock to define either or not the player is in motion
         this.animationLock = false;
+        //  Init default backup position
+        this.backupPosition = [0, 0];
         //  Init binary map for pathfinding
         this.binaryMap = [];
         //  Init devices for media queries
@@ -88,20 +82,47 @@
         this.addEventListener('core-localstorage-load', function(event) {
           if (this.backupPosition !== null) {
             console.log(this.backupPosition);
+            //  Generate left position
+            this.backupPositionX = (
+              this.backupPosition[0] * this.spriteSize
+            ) + 'px';
+            //  Generate top position
+            this.backupPositionY = (
+              this.backupPosition[1] * this.spriteSize
+            ) + 'px';
+            //  Set backup position as current
             this.position.from = this.backupPosition;
+            console.log(this.backupPositionX+'|'+this.backupPositionY);
           }
         }.bind(this));
       },
       //  Set observers
       observe : {
-        'position.to' : 'playerPositionHasChanged',
-        'world'       : 'worldHasChanged'
+        //  Devices
+        'devices.mobile'  : 'deviceHasChanged',
+        'devices.medium'  : 'deviceHasChanged',
+        'devices.large'   : 'deviceHasChanged',
+        'devices.xlarge'  : 'deviceHasChanged',
+        'devices.xxlarge' : 'deviceHasChanged',
+        //  Player position
+        'position.to'     : 'playerPositionHasChanged',
+        //  World
+        'world'           : 'worldHasChanged'
       },
       ready : function () {
         //  Set up player animation
         this.animation = this.$.move.$.animation;
         this.animation.target = this.$.player;
+        console.log(this.animation.target);
         this.animation.fill = 'forwards';
+      },
+      //  Device has changed
+      deviceHasChanged : function () {
+        if (this.devices.mobile)  { this.spriteSize = 60; }
+        if (this.devices.medium)  { this.spriteSize = 75; }
+        if (this.devices.large)   { this.spriteSize = 90; }
+        if (this.devices.xlarge)  { this.spriteSize = 105; }
+        if (this.devices.xxlarge) { this.spriteSize = 120; }
       },
       //  Player position has changed
       playerPositionHasChanged : function () {
@@ -120,7 +141,10 @@
         //  Set updated position accordingly
         this.position.from = this.position.to;
         //  Create a backup in localstorage
-        this.backupPosition = this.position.to;
+        //this.backupPosition = this.position.to;
+        //this.backupPositionX = 0;
+        //this.backupPositionY = 0;
+        console.log('-----------');
       },
       worldHasChanged : function () {
         //  Reuse pathfinding library object's name

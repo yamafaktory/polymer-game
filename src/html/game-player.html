@@ -12,7 +12,6 @@
         background: transparent;
         z-index: 1;
         position: absolute;
-        top: 0;
       }
 
       :host(:hover) {
@@ -65,7 +64,6 @@
         var animation = this.$.walk.$.animation;
         animation.iterationCount = 10;
         animation.target = this.$.player;
-        console.log(animation);
         animation.play();
       },
       //  Animate player on click

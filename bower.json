@@ -12,11 +12,11 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "polymer": "Polymer/polymer#0.2.4",
-    "polymer-animation": "PolymerLabs/polymer-animation#0.2.4",
-    "core-layout": "Polymer/core-layout#0.2.4",
-    "core-localstorage": "Polymer/core-localstorage#0.2.4",
-    "core-media-query": "Polymer/core-media-query#0.2.4",
+    "polymer": "Polymer/polymer#master",
+    "core-animation": "Polymer/core-animation#master",
+    "core-layout": "Polymer/core-layout#master",
+    "core-localstorage": "Polymer/core-localstorage#master",
+    "core-media-query": "Polymer/core-media-query#master",
     "PathFinding.js": "*"
   }
 }

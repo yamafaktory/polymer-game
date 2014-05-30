@@ -2,42 +2,42 @@
 
   <template>
 
-    <polymer-animation duration="{{ (path.length * 1000) / 2 }}" id="animation">
+    <core-animation duration="{{ (path.length * 1000) / 2 }}" id="animation">
 
       <template repeat="{{ step, i in path }}">
 
-        <polymer-animation-keyframe offset="{{ (1 / (path.length - 1)) * i }}">
+        <core-animation-keyframe offset="{{ (1 / (path.length - 1)) * i }}">
 
           <template if="{{ devices.mobile }}">
-            <polymer-animation-prop name="transform" value="translate({{ step[0] * 60 }}px, {{ step[1] * 60 }}px)">
-            </polymer-animation-prop>
+            <core-animation-prop name="transform" value="translate({{ step[0] * 60 }}px, {{ step[1] * 60 }}px)">
+            </core-animation-prop>
           </template>
 
           <template if="{{ devices.medium }}">
-            <polymer-animation-prop name="transform" value="translate({{ step[0] * 75 }}px, {{ step[1] * 75 }}px)">
-            </polymer-animation-prop>
+            <core-animation-prop name="transform" value="translate({{ step[0] * 75 }}px, {{ step[1] * 75 }}px)">
+            </core-animation-prop>
           </template>
 
           <template if="{{ devices.large }}">
-            <polymer-animation-prop name="transform" value="translate({{ step[0] * 90 }}px, {{ step[1] * 90 }}px)">
-            </polymer-animation-prop>
+            <core-animation-prop name="transform" value="translate({{ step[0] * 90 }}px, {{ step[1] * 90 }}px)">
+            </core-animation-prop>
           </template>
 
           <template if="{{ devices.xlarge }}">
-            <polymer-animation-prop name="transform" value="translate({{ step[0] * 105 }}px, {{ step[1] * 105 }}px)">
-            </polymer-animation-prop>
+            <core-animation-prop name="transform" value="translate({{ step[0] * 105 }}px, {{ step[1] * 105 }}px)">
+            </core-animation-prop>
           </template>
 
           <template if="{{ devices.xxlarge }}">
-            <polymer-animation-prop name="transform" value="translate({{ step[0] * 120 }}px, {{ step[1] * 120 }}px)">
-            </polymer-animation-prop>
+            <core-animation-prop name="transform" value="translate({{ step[0] * 120 }}px, {{ step[1] * 120 }}px)">
+            </core-animation-prop>
           </template>
 
-        </polymer-animation-keyframe>
+        </core-animation-keyframe>
 
       </template>
 
-    </polymer-animation>
+    </core-animation>
 
   </template>
 
@@ -54,7 +54,7 @@
         },
         pathChanged : function () {
           if (this.animationLock === false) {
-            this.async(this.play);
+            this.async(this.play());
           }
         },
         play : function () {
@@ -64,4 +64,4 @@
 
     </script>
 
-  </polymer-element>
+</polymer-element>
