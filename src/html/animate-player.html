@@ -45,29 +45,28 @@
 
       Polymer('animate-player', {
         ready : function () {
-          this.addEventListener('core-animation-start', function(event) {
-            this.animationLock = true;
-          }.bind(this));
-          this.addEventListener('core-animation-end', function(event) {
+          //  Add a listener for animation end
+          this.addEventListener('core-animation-finish', function(event) {
             this.animationLock = false;
           }.bind(this));
         },
         pathChanged : function () {
-          console.log(this.path.length);
           if (this.animationLock === false) {
             this.async(this.play);
           }
         },
         play : function () {
+          //  Lock animation
+          this.animationLock = true;
+          //  Launch animation
           this.$.animation.play();
         },
         toTranslate : function (value, pixels) {
-          var result =
-            'translate(' +
-            (value[0] * pixels) +
-            'px, ' +
-            (value[1] * pixels) +
-            ')';
+          var result = 'translate(';
+          result += (value[0] * pixels);
+          result += 'px, ';
+          result += (value[1] * pixels);
+          result += ')';
           return result;
         }
       });

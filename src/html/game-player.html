@@ -53,14 +53,15 @@
 
     <animate-walk id="walk"></animate-walk>
 
-    <img src="/build/images/player.svg" id="player" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" on-click="{{ test }}">
+    <img src="/build/images/player.svg" id="player" class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" on-click="{{ pulse }}">
 
   </template>
 
   <script>
 
     Polymer('game-player', {
-      test : function () {
+      //  Player is always walking
+      ready : function () {
         var animation = this.$.walk.$.animation;
         animation.target = this.$.player;
         animation.play();
