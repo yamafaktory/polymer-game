@@ -5,6 +5,7 @@
 
 <link rel="import" href="game-player.html">
 <link rel="import" href="game-sprite.html">
+<link rel="import" href="socket-io.html">
 
 <link rel="import" href="animate-heighten.html">
 <link rel="import" href="animate-pivot.html">
@@ -12,7 +13,7 @@
 <link rel="import" href="animate-pulse.html">
 <link rel="import" href="animate-walk.html">
 
-<polymer-element name="game-stage" attributes="world binaryMap pathFinding">
+<polymer-element name="game-stage" attributes="world binaryMap pathFinding socket">
 
   <template>
 
@@ -25,6 +26,8 @@
       }
 
     </style>
+
+    <socket-io socket="{{ socket }}"></socket-io>
 
     <core-localstorage name="backupPosition" value="{{ backupPosition }}"></core-localstorage>
 
@@ -138,9 +141,9 @@
         //  Set updated position accordingly
         this.position.from = this.position.to;
         //  Create a backup in localstorage
-        //this.backupPosition = this.position.to;
-        //this.backupPositionX = 0;
-        //this.backupPositionY = 0;
+        this.backupPosition = this.position.to;
+        this.backupPositionX = 0;
+        this.backupPositionY = 0;
       },
       worldHasChanged : function () {
         //  Reuse pathfinding library object's name

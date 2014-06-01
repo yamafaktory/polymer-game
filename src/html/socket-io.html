@@ -1,0 +1,14 @@
+<polymer-element name="socket-io" attributes="socket">
+
+  <script>
+
+    Polymer('socket-io', {
+      //
+      ready : function () {
+        this.socket.emit('test', 'rrrrr');
+      }
+    });
+
+  </script>
+
+</polymer-element>

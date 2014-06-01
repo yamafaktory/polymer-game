@@ -20,6 +20,8 @@
     "koa-static": "*",
     "myth": "*",
     "pathfinding": "*",
+    "socket.io": "*",
+    "socket.io-client": "*",
     "vinyl-source-stream": "*"
   }
 }
