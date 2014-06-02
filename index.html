@@ -58,7 +58,7 @@
 
 </polymer-element><polymer-element name="socket-io" attributes="socket" assetpath="src/html/">
 
-  <script>Polymer("socket-io",{ready:function(){this.socket.emit("test","rrrrr")}});</script>
+  <script>Polymer("socket-io",{observe:{socket:"socketReady"},socketReady:function(){this.socket.emit("test",{data:"pffff"})}});</script>
 
 </polymer-element><polymer-element name="animate-heighten" noscript="" assetpath="src/html/">
 
@@ -250,7 +250,7 @@
 
   </template>
 
-</polymer-element><polymer-element name="game-stage" attributes="world binaryMap pathFinding socket" assetpath="src/html/">
+</polymer-element><polymer-element name="game-stage" attributes="binaryMap pathFinding socket world" assetpath="src/html/">
 
   <template>
 

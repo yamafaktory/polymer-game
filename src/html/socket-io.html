@@ -3,9 +3,14 @@
   <script>
 
     Polymer('socket-io', {
-      //
-      ready : function () {
-        this.socket.emit('test', 'rrrrr');
+      //  Set observers
+      observe : {
+        'socket' : 'socketReady'
+      },
+      socketReady : function () {
+        this.socket.emit('test', {
+          data: 'pffff'
+        });
       }
     });
 

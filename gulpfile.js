@@ -13,6 +13,7 @@ es6ify.traceurOverrides = { blockBinding: true};
 
 var scripts = [
   './*.js',
+  './modules/*.js',
   './src/js/*.js',
   './src/html/animate-player.html',
   './src/html/animate-sprite.html',
@@ -51,7 +52,7 @@ gulp.task('myth', function () {
 });
 
 gulp.task('nodemon', function () {
-  return nodemon({ script: 'server.js'})
+  return nodemon({ script: 'index.js'})
     .on('start', tasks)
     .on('change', tasks);
 });

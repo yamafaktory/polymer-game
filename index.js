@@ -1,3 +1,8 @@
+//  Game
+var game = {
+  players : 0
+};
+
 //  Koa
 var static = require('koa-static');
 var app = require('koa')();
@@ -15,13 +20,8 @@ app.on('error', function (err, ctx){
   log.error('server error', err, ctx);
 });
 
-//  Socket.io
-io.on('connection', function (socket) {
-  socket.on('test', function (data) {
-    console.log(data);
-  });
-  //socket.emit('test', { hello: 'world' });
-});
+//  Init websockets module
+require('./modules/websockets').call(io, game);
 
 //  Set listening port
 server.listen(1337);
