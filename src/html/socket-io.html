@@ -1,4 +1,4 @@
-<polymer-element name="socket-io" attributes="socket">
+<polymer-element name="socket-io" attributes="socket uid">
 
   <script>
 
@@ -8,9 +8,13 @@
         'socket' : 'socketReady'
       },
       socketReady : function () {
-        this.socket.emit('test', {
-          data: 'pffff'
-        });
+        this.socket.on('new player connection', function (data) {
+          this.uid[data.uid] = {
+            position : [0, 0]
+          };
+          console.log('new player here:' + data.uid);
+          console.log(this.uid);
+        }.bind(this));
       }
     });
 

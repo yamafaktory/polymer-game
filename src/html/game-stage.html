@@ -27,7 +27,7 @@
 
     </style>
 
-    <socket-io socket="{{ socket }}"></socket-io>
+    <socket-io socket="{{ socket }}" uid="{{ uid }}"></socket-io>
 
     <core-localstorage name="backupPosition" value="{{ backupPosition }}"></core-localstorage>
 
@@ -43,7 +43,7 @@
 
     <animate-player id="move" animationLock="{{ animationLock }}" devices="{{ devices }}" path="{{ path }}"></animate-player>
 
-    <game-player class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" devices="{{ devices }}" style="top: {{ backupPositionY }}; left: {{ backupPositionX }}" id="player"></game-player>
+    <game-player class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" devices="{{ devices }}" style="top: {{ backupPositionY }}; left: {{ backupPositionX }}" id="player" uid="{{ uid }}"></game-player>
 
       <template repeat="{{ row, i in world }}">
 
@@ -75,10 +75,13 @@
         this.devices = {};
         //  Init move object for player motion
         this.path = [0, 0];
+        //  Init player position
         this.position = {
           from : [0, 0],
           to   : [0, 0]
         };
+        //  Init players uid
+        this.uid = {};
         //  Init world map
         this.world = [];
         //  Get position from localstorage

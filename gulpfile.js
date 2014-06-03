@@ -6,7 +6,9 @@ var livereload  = require('gulp-livereload');
 var myth        = require('gulp-myth');
 var nodemon     = require('gulp-nodemon');
 var source      = require('vinyl-source-stream');
+var streamify   = require('gulp-streamify');
 var svgmin      = require('gulp-svgmin');
+var uglify      = require('gulp-uglify');
 var vulcanize   = require('gulp-vulcanize');
 
 es6ify.traceurOverrides = { blockBinding: true};
@@ -35,6 +37,7 @@ gulp.task('compile', function () {
     .require(require.resolve('./src/js/game.js'), { entry: true })
     .bundle({ debug: true })
     .pipe(source('game.js'))
+    .pipe(streamify(uglify()))
     .pipe(gulp.dest('./build/js'));
 });
 
