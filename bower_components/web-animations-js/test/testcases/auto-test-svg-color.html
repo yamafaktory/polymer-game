@@ -25,15 +25,12 @@ limitations under the License.
 }
 </style>
 <svg width="600px" height="200px">
-  <rect class="expectation" x="400px" y="10px" width="100px" height="40px">
-  </rect>
-  <rect class="anim" x="100px" y="10px" width="100px" height="10px"></rect>
+  <circle class="expectation" stroke-width="10" cx="400px" cy="85px" r="75px" stroke="rgba(150, 40, 250, 1)"/>
+  <circle class="anim" stroke-width="10" cx="60px" cy="60px" r="50px" stroke="rgba(0, 240, 50, 1)"/>
 </svg>
 <script src="../bootstrap.js"></script>
 <script>
 "use strict";
 var rect = document.querySelector(".anim")
-
-document.timeline.play(new Animation(rect, {x: "400px", height: "40px"}, {duration: 1 * 1000, fill: 'forwards'}));
-
+document.timeline.play(new Animation(rect, {cx: "400px", cy: "85px", r: "75px", stroke: "rgba(150, 40, 250, 1)"}, {duration: 1000, fill: 'forwards'}));
 </script>
