@@ -56,9 +56,9 @@
 
   <script>Polymer("game-sprite",{created:function(){this.coordinates=[]},locate:function(){var animation;var x=JSON.parse(this.matrix)[0];var y=JSON.parse(this.matrix)[1];if(this.animationLock===false){if(this.binaryMap[y][x]===0){animation=this.$.pivot.$.animation;this.position.to=JSON.parse(this.matrix)}else{animation=this.$.heighten.$.animation}animation.target=this.$.sprite;animation.play()}}});</script>
 
-</polymer-element><polymer-element name="socket-io" attributes="socket players" assetpath="src/html/">
+</polymer-element><polymer-element name="socket-io" attributes="devices players socket" assetpath="src/html/">
 
-  <script>Polymer("socket-io",{observe:{socket:"socketReady"},socketReady:function(){this.socket.emit("client ready");this.socket.on("new player connection",function(data){this.players=data.players;console.log("new player here:"+data.uid);console.log(this.players);var player=new gamePlayer;document.body.appendChild(player)}.bind(this));this.socket.on("player first connection",function(data){this.players=data.players;console.log("FIRST");console.log(Object.keys(data.players));console.log(data.uid)}.bind(this));this.socket.on("player left",function(data){console.log(data.players);console.log(data.uid)}.bind(this))}});</script>
+  <script>Polymer("socket-io",{observe:{socket:"socketReady"},socketReady:function(){var stage=document.querySelector("game-stage");console.log(stage);this.socket.emit("client ready");this.socket.on("new player connection",function(data){this.players=data.players;console.log("new player here:"+data.uid);console.log(this.players);var player=new gamePlayer;document.body.appendChild(player)}.bind(this));this.socket.on("player first connection",function(data){var newPlayer;this.players=data.players;for(var property in this.player){if(property!==data.uid){newPlayer=new gamePlayer;newPlayer.setAttribute("devices",this.devices);stage.appendChild(newPlayer)}}console.log("FIRST");console.log(Object.keys(data.players));console.log(data.uid)}.bind(this));this.socket.on("player left",function(data){this.players=data.players;console.log(data.players);console.log(data.uid)}.bind(this))}});</script>
 
 </polymer-element><polymer-element name="animate-heighten" noscript="" assetpath="src/html/">
 
@@ -256,7 +256,7 @@
 
     <style>:host{width:100%;z-index:0}</style>
 
-    <socket-io socket="{{ socket }}" players="{{ players }}"></socket-io>
+    <socket-io socket="{{ socket }}" devices="{{ devices }}" players="{{ players }}"></socket-io>
 
     <core-localstorage name="backupPosition" value="{{ backupPosition }}"></core-localstorage>
 
@@ -272,7 +272,7 @@
 
     <animate-player id="move" animationlock="{{ animationLock }}" devices="{{ devices }}" path="{{ path }}"></animate-player>
 
-    <game-player class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" devices="{{ devices }}" style="top: {{ backupPositionY }}; left: {{ backupPositionX }}" id="player" uid="{{ uid }}"></game-player>
+    <game-player class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" devices="{{ devices }}" style="top: {{ backupPositionY }}; left: {{ backupPositionX }}" id="player"></game-player>
 
       <template repeat="{{ row, i in world }}">
 

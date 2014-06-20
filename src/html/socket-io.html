@@ -1,4 +1,4 @@
-<polymer-element name="socket-io" attributes="socket players">
+<polymer-element name="socket-io" attributes="devices players socket">
 
   <script>
 
@@ -11,11 +11,14 @@
 
       socketReady : function () {
 
+        var stage = document.querySelector('game-stage');
+        console.log(stage);
+
         //  First, tell the server that client is now ready
         this.socket.emit('client ready');
 
         this.socket.on('new player connection', function (data) {
-          //  Store new user's uid into players
+          //  Store players
           this.players = data.players;
           console.log('new player here:' + data.uid);
           console.log(this.players);
@@ -25,14 +28,26 @@
         }.bind(this));
 
         this.socket.on('player first connection', function (data) {
-          //  Store new user's uid into players
+          var newPlayer;
+          //  Update players
           this.players = data.players;
+          //  Add players on stage
+          for (var property in this.player) {
+            //  But not the player itself
+            if (property !== data.uid) {
+              newPlayer = new gamePlayer();
+              newPlayer.setAttribute('devices', this.devices);
+              stage.appendChild(newPlayer);
+            }
+          }
           console.log('FIRST');
           console.log(Object.keys(data.players));
           console.log(data.uid);
         }.bind(this));
 
         this.socket.on('player left', function (data) {
+          //  Update players
+          this.players = data.players;
           console.log(data.players);
           console.log(data.uid);
         }.bind(this));
