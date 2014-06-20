@@ -56,10 +56,13 @@
   </template>
 
   <script>
+
     Polymer('game-sprite', {
+
       created : function () {
         this.coordinates = [];
       },
+
       locate : function () {
         var animation;
         var x = JSON.parse(this.matrix)[0];
@@ -72,7 +75,6 @@
             //  Set sprite position from matrix
             //  and parse the original string as JSON
             this.position.to = JSON.parse(this.matrix);
-            console.log(this.position.to);
           } else {
             animation = this.$.heighten.$.animation;
           }
@@ -81,7 +83,9 @@
           animation.play();
         }
       }
+
     });
+    
   </script>
 
 </polymer-element>

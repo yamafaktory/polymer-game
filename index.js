@@ -1,6 +1,9 @@
 //  Game
 var game = {
-  players : 0
+  players : {
+  	number : 0,
+  	uid : {}
+  }
 };
 
 //  Koa

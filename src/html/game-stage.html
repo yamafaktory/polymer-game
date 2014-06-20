@@ -26,7 +26,7 @@
 
     </style>
 
-    <socket-io socket="{{ socket }}" uid="{{ uid }}"></socket-io>
+    <socket-io socket="{{ socket }}" players="{{ players }}"></socket-io>
 
     <core-localstorage name="backupPosition" value="{{ backupPosition }}"></core-localstorage>
 
@@ -63,6 +63,7 @@
   <script>
 
     Polymer('game-stage', {
+
       created : function () {
         //  Create a lock to define either or not the player is in motion
         this.animationLock = false;
@@ -79,8 +80,8 @@
           from : [0, 0],
           to   : [0, 0]
         };
-        //  Init players uid
-        this.uid = {};
+        //  Init other players
+        this.players = {};
         //  Init world map
         this.world = [];
         //  Get position from localstorage
@@ -99,6 +100,7 @@
           }
         }.bind(this));
       },
+
       //  Set observers
       observe : {
         //  Devices
@@ -112,12 +114,14 @@
         //  World
         'world'           : 'worldHasChanged'
       },
+
       ready : function () {
         //  Set up player animation
         this.animation = this.$.move.$.animation;
         this.animation.target = this.$.player;
         this.animation.fill = 'forwards';
       },
+
       //  Device has changed
       deviceHasChanged : function () {
         if (this.devices.mobile)  { this.spriteSize = 60; }
@@ -126,6 +130,7 @@
         if (this.devices.xlarge)  { this.spriteSize = 105; }
         if (this.devices.xxlarge) { this.spriteSize = 120; }
       },
+
       //  Player position has changed
       playerPositionHasChanged : function () {
         //  Backup the grid as its value is modified after path-finding
@@ -147,6 +152,7 @@
         this.backupPositionX = 0;
         this.backupPositionY = 0;
       },
+
       worldHasChanged : function () {
         //  Reuse pathfinding library object's name
         var PF = this.pathFinding;
@@ -154,6 +160,7 @@
         this.grid = new PF.Grid(20, 20, this.binaryMap);
         this.finder = new PF.AStarFinder({heuristic: PF.Heuristic.chebyshev});
       }
+      
     });
 
   </script>

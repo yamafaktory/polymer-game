@@ -1,21 +1,44 @@
-<polymer-element name="socket-io" attributes="socket uid">
+<polymer-element name="socket-io" attributes="socket players">
 
   <script>
 
     Polymer('socket-io', {
+
       //  Set observers
       observe : {
         'socket' : 'socketReady'
       },
+
       socketReady : function () {
+
+        //  First, tell the server that client is now ready
+        this.socket.emit('client ready');
+
         this.socket.on('new player connection', function (data) {
-          this.uid[data.uid] = {
-            position : [0, 0]
-          };
+          //  Store new user's uid into players
+          this.players = data.players;
           console.log('new player here:' + data.uid);
-          console.log(this.uid);
+          console.log(this.players);
+          //  Add new user on stage
+          var player = new gamePlayer();
+          document.body.appendChild(player);
         }.bind(this));
+
+        this.socket.on('player first connection', function (data) {
+          //  Store new user's uid into players
+          this.players = data.players;
+          console.log('FIRST');
+          console.log(Object.keys(data.players));
+          console.log(data.uid);
+        }.bind(this));
+
+        this.socket.on('player left', function (data) {
+          console.log(data.players);
+          console.log(data.uid);
+        }.bind(this));
+
       }
+
     });
 
   </script>
