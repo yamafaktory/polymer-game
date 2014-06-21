@@ -11,8 +11,13 @@
 
       socketReady : function () {
 
-        var stage = document.querySelector('game-stage');
-        console.log(stage);
+        //  Method to add a new player on stage
+        var addPlayer = (function (data) {
+          var newPlayer = new gamePlayer();
+          newPlayer.setAttribute('id', data.uid);
+          newPlayer.setAttribute('devices', '{{ devices }}');
+          this.parentNode.appendChild(newPlayer);
+        }.bind(this));
 
         //  First, tell the server that client is now ready
         this.socket.emit('client ready');
@@ -23,21 +28,17 @@
           console.log('new player here:' + data.uid);
           console.log(this.players);
           //  Add new user on stage
-          var player = new gamePlayer();
-          document.body.appendChild(player);
+          addPlayer(data);
         }.bind(this));
 
         this.socket.on('player first connection', function (data) {
-          var newPlayer;
           //  Update players
           this.players = data.players;
           //  Add players on stage
           for (var property in this.player) {
             //  But not the player itself
             if (property !== data.uid) {
-              newPlayer = new gamePlayer();
-              newPlayer.setAttribute('devices', this.devices);
-              stage.appendChild(newPlayer);
+              addPlayer(data);
             }
           }
           console.log('FIRST');
