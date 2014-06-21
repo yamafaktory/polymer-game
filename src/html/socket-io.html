@@ -14,9 +14,18 @@
         //  Method to add a new player on stage
         var addPlayer = (function (data) {
           var newPlayer = new gamePlayer();
-          newPlayer.setAttribute('id', data.uid);
+          newPlayer.setAttribute('uid', data.uid);
           newPlayer.setAttribute('devices', '{{ devices }}');
           this.parentNode.appendChild(newPlayer);
+          console.info('Player connect:', data.uid);
+        }.bind(this));
+
+        //  Method to remove a player from stage
+        var removePlayer = (function (data) {
+          var selector = '[uid=' + data.uid + ']';
+          var player = this.parentNode.querySelector(selector);
+          this.parentNode.removeChild(player);
+          console.info('Player disconnect:', data.uid);
         }.bind(this));
 
         //  First, tell the server that client is now ready
@@ -25,8 +34,6 @@
         this.socket.on('new player connection', function (data) {
           //  Store players
           this.players = data.players;
-          console.log('new player here:' + data.uid);
-          console.log(this.players);
           //  Add new user on stage
           addPlayer(data);
         }.bind(this));
@@ -41,16 +48,13 @@
               addPlayer(data);
             }
           }
-          console.log('FIRST');
-          console.log(Object.keys(data.players));
-          console.log(data.uid);
         }.bind(this));
 
         this.socket.on('player left', function (data) {
           //  Update players
           this.players = data.players;
-          console.log(data.players);
-          console.log(data.uid);
+          //  Remove player from stage
+          removePlayer(data);
         }.bind(this));
 
       }

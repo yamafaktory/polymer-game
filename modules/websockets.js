@@ -22,14 +22,11 @@ module.exports = function (game) {
       players : game.players.uid,
       uid : socket.id
     });
-    console.log('++ ' + socket.id);
 
     socket.on('disconnect', function () {
       //  Update game data
       --game.players.number;
       delete game.players.uid[socket.id];
-      console.log('-- ' + socket.id);
-      console.log(game.players.uid);
       socket.broadcast.emit('player left', {
         players : game.players.uid,
         uid : socket.id
