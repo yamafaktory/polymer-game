@@ -20,7 +20,8 @@ var scripts = [
   './src/html/animate-player.html',
   './src/html/animate-sprite.html',
   './src/html/game-sprite.html',
-  './src/html/game-stage.html'
+  './src/html/game-stage.html',
+  './src/html/socket-io.html'
 ];
 var tasks = [
   'myth',

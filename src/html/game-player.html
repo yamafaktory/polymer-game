@@ -61,6 +61,17 @@
 
     Polymer('game-player', {
 
+      //  New player inserted into DOM
+      attached : function () {
+        this.pulse();
+        console.warn('attached');
+      },
+
+      //  Player removed from DOM
+      detached : function () {
+        console.warn('detached');
+      },
+
       //  Player is always walking
       ready : function () {
         var animation = this.$.walk.$.animation;

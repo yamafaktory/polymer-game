@@ -1,4 +1,4 @@
-<polymer-element name="socket-io" attributes="devices players socket">
+<polymer-element name="socket-io" attributes="devices path players socket">
 
   <script>
 
@@ -6,7 +6,14 @@
 
       //  Set observers
       observe : {
-        'socket' : 'socketReady'
+        'path'    : 'pathHasChanged',
+        'socket'  : 'socketReady'
+      },
+
+      pathHasChanged : function () {
+        this.socket.emit('player path changed', {
+          path : this.path
+        });
       },
 
       socketReady : function () {
@@ -15,7 +22,7 @@
         var addPlayer = (function (data) {
           var newPlayer = new gamePlayer();
           newPlayer.setAttribute('uid', data.uid);
-          newPlayer.setAttribute('devices', '{{ devices }}');
+          newPlayer.devices = this.devices;
           this.parentNode.appendChild(newPlayer);
           console.info('Player connect:', data.uid);
         }.bind(this));
