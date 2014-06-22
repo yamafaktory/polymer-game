@@ -3,12 +3,12 @@ Polymer('game-player', {
   //  New player inserted into DOM
   attached : function () {
     this.pulse();
-    console.info('Player attached');
+    console.info('New player attached');
   },
 
   //  Player removed from DOM
   detached : function () {
-    console.info('Player detached');
+    console.info('New player detached');
   },
 
   //  Player is always walking

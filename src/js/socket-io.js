@@ -6,12 +6,6 @@ Polymer('socket-io', {
     'socket'  : 'socketReady'
   },
 
-  pathHasChanged : function () {
-    this.socket.emit('player path changed', {
-      path : this.path
-    });
-  },
-
   socketReady : function () {
 
     //  Method to add a new player on stage
@@ -31,8 +25,41 @@ Polymer('socket-io', {
       console.info('Player disconnect:', data.uid);
     };
 
+    //  Method to update a player position on stage
+    var updatePlayerPosition = data => {
+      var selector = '[uid=' + data.uid + ']';
+      var player = this.parentNode.querySelector(selector);
+      player.setAttribute('position', data.position);
+    };
+
+    //  Add pathHasChanged method now as socket.io is ready 
+    this.pathHasChanged = function () {
+      this.socket.emit('player path changed', {
+        path  : this.path,
+        uid   : this.uid
+      });
+    };
+
     //  First, tell the server that client is now ready
     this.socket.emit('client ready');
+
+    this.socket.on('player first connection', data => {
+      //  Send player position
+      this.socket.emit('player position', {
+        position : this.position.from
+      });
+      //  Update players
+      this.players = data.players;
+      //  Store uid
+      this.uid = data.uid;
+      //  Add players on stage
+      for (var property in this.player) {
+        //  But not the player itself
+        if (property !== data.uid) {
+          addPlayer(data);
+        }
+      }
+    });
 
     this.socket.on('new player connection', data => {
       //  Store players
@@ -41,16 +68,10 @@ Polymer('socket-io', {
       addPlayer(data);
     });
 
-    this.socket.on('player first connection', data => {
-      //  Update players
-      this.players = data.players;
-      //  Add players on stage
-      for (var property in this.player) {
-        //  But not the player itself
-        if (property !== data.uid) {
-          addPlayer(data);
-        }
-      }
+    this.socket.on('player position', data => {
+      //  Update a player position accordingly
+      updatePlayerPosition(data);
+      console.info('Player id=', data.uid, ' position:', data.position);
     });
 
     this.socket.on('player left', data => {

@@ -24,7 +24,7 @@
     <style>:host{display:none}</style>
   </template>
   <script>Polymer("core-media-query",{queryMatches:false,query:"",ready:function(){this._mqHandler=this.queryHandler.bind(this);this._mq=null},queryChanged:function(){if(this._mq){this._mq.removeListener(this._mqHandler)}var query=this.query;if(query[0]!=="("){query="("+this.query+")"}this._mq=window.matchMedia(query);this._mq.addListener(this._mqHandler);this.queryHandler(this._mq)},queryHandler:function(mq){this.queryMatches=mq.matches;this.asyncFire("core-media-change",mq)}});</script>
-</polymer-element><polymer-element name="game-player" constructor="gamePlayer" attributes="devices" assetpath="src/html/">
+</polymer-element><polymer-element name="game-player" constructor="gamePlayer" attributes="devices uid" assetpath="src/html/">
 
   <template>
 
@@ -52,7 +52,7 @@
 
   </template>
 
-</polymer-element><polymer-element name="socket-io" attributes="devices path players socket" assetpath="src/html/">
+</polymer-element><polymer-element name="socket-io" attributes="devices path players position socket uid" assetpath="src/html/">
 
 </polymer-element><polymer-element name="animate-heighten" noscript="" assetpath="src/html/">
 
@@ -248,7 +248,7 @@
 
     <style>:host{width:100%;z-index:0}</style>
 
-    <socket-io socket="{{ socket }}" devices="{{ devices }}" path="{{ path }}" players="{{ players }}"></socket-io>
+    <socket-io socket="{{ socket }}" devices="{{ devices }}" path="{{ path }}" players="{{ players }}" position="{{ position }}" uid="{{ uid }}"></socket-io>
 
     <core-localstorage name="backupPosition" value="{{ backupPosition }}"></core-localstorage>
 
