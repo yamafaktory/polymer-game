@@ -16,13 +16,9 @@ es6ify.traceurOverrides = { blockBinding: true};
 var scripts = [
   './*.js',
   './modules/*.js',
-  './src/js/*.js',
-  './src/html/animate-player.html',
-  './src/html/animate-sprite.html',
-  './src/html/game-sprite.html',
-  './src/html/game-stage.html',
-  './src/html/socket-io.html'
+  './src/js/*.js'
 ];
+
 var tasks = [
   'myth',
   'svgmin',
