@@ -21,11 +21,7 @@ Polymer('animate-player', {
   },
 
   toTranslate : function (value, pixels) {
-    var result = 'translate(';
-    result += (value[0] * pixels);
-    result += 'px, ';
-    result += (value[1] * pixels);
-    result += ')';
+    var result = `translate(${value[0] * pixels}px, ${value[1] * pixels}px)`;
     return result;
   }
   
