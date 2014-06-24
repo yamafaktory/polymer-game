@@ -25,10 +25,10 @@ module.exports = function (game) {
     });
 
     //  When client send position
-    socket.on('player position', function (data) {
+    socket.on('player first position', function (data) {
       console.log('player id =', socket.id, ' position =', data.position);
       //  Keep other clients up to date
-      socket.broadcast.emit('player position', {
+      socket.broadcast.emit('player first position', {
         position : data.position,
         uid : socket.id
       });
@@ -37,7 +37,11 @@ module.exports = function (game) {
     //  When client send updated path
     socket.on('player path changed', function (data) {
       console.log(data.path);
-      console.log('uid =', data.uid);
+      //  Keep other clients up to date
+      socket.broadcast.emit('player path changed', {
+        position : data.path,
+        uid : socket.id
+      });
     });
 
     //  Handle disconnection

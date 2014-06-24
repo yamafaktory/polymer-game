@@ -8,6 +8,9 @@ Polymer('animate-player', {
   },
 
   pathChanged : function () {
+    this.$.animation.target = this.target;
+    console.log(this.path);
+    console.log('Target=>', this.target);
     if (this.animationLock === false) {
       this.async(this.play);
     }

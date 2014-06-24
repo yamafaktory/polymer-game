@@ -54,7 +54,7 @@ Polymer('game-stage', {
   ready : function () {
     //  Set up player animation
     this.animation = this.$.move.$.animation;
-    this.animation.target = this.$.player;
+    this.target = this.$.player;
     this.animation.fill = 'forwards';
   },
 

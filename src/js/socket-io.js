@@ -25,19 +25,24 @@ Polymer('socket-io', {
       console.info('Player disconnect:', data.uid);
     };
 
-    //  Method to update a player position on stage
-    var updatePlayerPosition = data => {
+    //  Method to set the first position of a player on stage
+    var setPlayerPosition = data => {
       var selector = '[uid=' + data.uid + ']';
       var player = this.parentNode.querySelector(selector);
       player.setAttribute('position', data.position);
     };
 
+    //  Method to get a player by uid
+    var getPlayerByUid = data => {
+      var selector = '[uid=' + data.uid + ']';
+      return this.parentNode.querySelector(selector);
+    };
+
     //  Add pathHasChanged method now as socket.io is ready 
     this.pathHasChanged = function () {
       this.socket.emit('player path changed', {
-        path  : this.path,
-        uid   : this.uid
-      });
+        path  : this.path
+      });console.log(this.path);
     };
 
     //  First, tell the server that client is now ready
@@ -45,7 +50,7 @@ Polymer('socket-io', {
 
     this.socket.on('player first connection', data => {
       //  Send player position
-      this.socket.emit('player position', {
+      this.socket.emit('player first position', {
         position : this.position.from
       });
       //  Update players
@@ -68,10 +73,17 @@ Polymer('socket-io', {
       addPlayer(data);
     });
 
-    this.socket.on('player position', data => {
-      //  Update a player position accordingly
-      updatePlayerPosition(data);
+    this.socket.on('player first position', data => {
+      //  Set the position of a player 
+      setPlayerPosition(data);
       console.info('Player id=', data.uid, ' position:', data.position);
+    });
+
+    this.socket.on('player path changed', data => {
+      //  Update targeted player
+      this.target = getPlayerByUid(data);
+      //  and the path
+      this.path = data.path;
     });
 
     this.socket.on('player left', data => {

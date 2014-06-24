@@ -52,7 +52,7 @@
 
   </template>
 
-</polymer-element><polymer-element name="socket-io" attributes="devices path players position socket uid" assetpath="src/html/">
+</polymer-element><polymer-element name="socket-io" attributes="devices path players position socket target uid" assetpath="src/html/">
 
 </polymer-element><polymer-element name="animate-heighten" noscript="" assetpath="src/html/">
 
@@ -134,7 +134,7 @@
 
   </template>
 
-</polymer-element><polymer-element name="animate-player" attributes="animationLock path devices" assetpath="src/html/">
+</polymer-element><polymer-element name="animate-player" attributes="animationLock devices path target" assetpath="src/html/">
 
   <template>
 
@@ -248,7 +248,7 @@
 
     <style>:host{width:100%;z-index:0}</style>
 
-    <socket-io socket="{{ socket }}" devices="{{ devices }}" path="{{ path }}" players="{{ players }}" position="{{ position }}" uid="{{ uid }}"></socket-io>
+    <socket-io socket="{{ socket }}" devices="{{ devices }}" path="{{ path }}" players="{{ players }}" position="{{ position }}" target="{{ target }}" uid="{{ uid }}"></socket-io>
 
     <core-localstorage name="backupPosition" value="{{ backupPosition }}"></core-localstorage>
 
@@ -262,7 +262,7 @@
 
     <core-media-query query="min-width: 120.063em" querymatches="{{ devices.xxlarge }}"></core-media-query>
 
-    <animate-player id="move" animationlock="{{ animationLock }}" devices="{{ devices }}" path="{{ path }}"></animate-player>
+    <animate-player id="move" animationlock="{{ animationLock }}" devices="{{ devices }}" path="{{ path }}" target="{{ target }}"></animate-player>
 
     <game-player class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" devices="{{ devices }}" style="top: {{ backupPositionY }}; left: {{ backupPositionX }}" id="player"></game-player>
 
