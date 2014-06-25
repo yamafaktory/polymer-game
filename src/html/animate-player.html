@@ -2,7 +2,7 @@
 
   <template>
 
-    <core-animation duration="{{ path.length * 500 }}" id="animation">
+    <core-animation duration="{{ path.length * 500 }}" easing="ease-in-out" fill="forwards" id="animation">
 
       <template repeat="{{ step, i in path }}">
 

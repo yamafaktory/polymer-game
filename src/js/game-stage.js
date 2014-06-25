@@ -55,7 +55,6 @@ Polymer('game-stage', {
     //  Set up player animation
     this.animation = this.$.move.$.animation;
     this.target = this.$.player;
-    this.animation.fill = 'forwards';
   },
 
   //  Device has changed
