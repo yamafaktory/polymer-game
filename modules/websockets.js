@@ -39,7 +39,7 @@ module.exports = function (game) {
       console.log(data.path);
       //  Keep other clients up to date
       socket.broadcast.emit('player path changed', {
-        position : data.path,
+        path : data.path,
         uid : socket.id
       });
     });

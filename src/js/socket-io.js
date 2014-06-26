@@ -1,7 +1,13 @@
 Polymer('socket-io', {
 
+  created : function () {
+    //  Property used to check for path origin
+    this.ownPath = true;
+  },
+
   //  Set observers
   observe : {
+    'ownPath' : 'test',
     'path'    : 'pathHasChanged',
     'socket'  : 'socketReady'
   },
@@ -40,9 +46,12 @@ Polymer('socket-io', {
 
     //  Add pathHasChanged method now as socket.io is ready 
     this.pathHasChanged = function () {
-      this.socket.emit('player path changed', {
-        path  : this.path
-      });console.log(this.path);
+      if (this.ownPath) {
+        console.log('path in socket.io', this.path);
+        this.socket.emit('player path changed', {
+          path  : this.path
+        });
+      }
     };
 
     //  First, tell the server that client is now ready
@@ -82,8 +91,11 @@ Polymer('socket-io', {
     this.socket.on('player path changed', data => {
       //  Update targeted player
       this.target = getPlayerByUid(data);
+      //  Keep track of path origin
+      this.ownPath = false;
       //  and the path
       this.path = data.path;
+      console.log('path from server', this.path);
     });
 
     this.socket.on('player left', data => {
@@ -93,6 +105,10 @@ Polymer('socket-io', {
       removePlayer(data);
     });
 
+  },
+
+  test : function () {
+    console.log(this.ownPath);
   }
 
 });
