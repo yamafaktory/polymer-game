@@ -41,7 +41,7 @@
 
   </template>
 
-</polymer-element><polymer-element name="socket-io" attributes="devices path players position socket target uid" assetpath="src/html/">
+</polymer-element><polymer-element name="socket-io" attributes="devices path players position socket spriteSize target uid" assetpath="src/html/">
 
 </polymer-element><polymer-element name="animate-heighten" noscript="" assetpath="src/html/">
 
@@ -237,7 +237,7 @@
 
     <style>:host{width:100%;z-index:0}</style>
 
-    <socket-io socket="{{ socket }}" devices="{{ devices }}" path="{{ path }}" players="{{ players }}" position="{{ position }}" target="{{ target }}" uid="{{ uid }}"></socket-io>
+    <socket-io socket="{{ socket }}" devices="{{ devices }}" path="{{ path }}" players="{{ players }}" position="{{ position }}" spritesize="{{ spriteSize }}" target="{{ target }}" uid="{{ uid }}"></socket-io>
 
     <core-localstorage name="backupPosition" value="{{ backupPosition }}"></core-localstorage>
 

@@ -7,7 +7,6 @@ Polymer('socket-io', {
 
   //  Set observers
   observe : {
-    'ownPath' : 'test',
     'path'    : 'pathHasChanged',
     'socket'  : 'socketReady'
   },
@@ -33,8 +32,13 @@ Polymer('socket-io', {
 
     //  Method to set the first position of a player on stage
     var setPlayerPosition = data => {
-      var selector = '[uid=' + data.uid + ']';
+      var {selector, x, y} = {
+        selector : '[uid=' + data.uid + ']',
+        x : (data.position[0] * this.spriteSize),
+        y : (data.position[1] * this.spriteSize)
+      };
       var player = this.parentNode.querySelector(selector);
+      player.setAttribute('style', `top: ${y}px; left: ${x}px`);
       player.setAttribute('position', data.position);
     };
 
@@ -105,10 +109,6 @@ Polymer('socket-io', {
       removePlayer(data);
     });
 
-  },
-
-  test : function () {
-    console.log(this.ownPath);
   }
 
 });
