@@ -51,7 +51,6 @@ Polymer('socket-io', {
     //  Add pathHasChanged method now as socket.io is ready 
     this.pathHasChanged = function () {
       if (this.ownPath) {
-        console.log('path in socket.io', this.path);
         this.socket.emit('player path changed', {
           path  : this.path
         });

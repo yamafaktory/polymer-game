@@ -5,6 +5,8 @@ Polymer('game-stage', {
     this.animationLock = false;
     //  Init default backup position
     this.backupPosition = [0, 0];
+    //  Init default initial backup position
+    this.initialBackupPosition = [0, 0];
     //  Init binary map for pathfinding
     this.binaryMap = [];
     //  Init devices for media queries
@@ -33,6 +35,8 @@ Polymer('game-stage', {
         ) + 'px';
         //  Set backup position as current
         this.position.from = this.backupPosition;
+        //  Store the initial position found from localstorage 
+        this.initialBackupPosition = this.backupPosition;
       }
     });
   },
@@ -84,8 +88,6 @@ Polymer('game-stage', {
     this.position.from = this.position.to;
     //  Create a backup in localstorage
     this.backupPosition = this.position.to;
-    this.backupPositionX = 0;
-    this.backupPositionY = 0;
   },
 
   worldHasChanged : function () {

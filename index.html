@@ -123,7 +123,7 @@
 
   </template>
 
-</polymer-element><polymer-element name="animate-player" attributes="animationLock devices path target" assetpath="src/html/">
+</polymer-element><polymer-element name="animate-player" attributes="animationLock initialBackupPosition devices path target" assetpath="src/html/">
 
   <template>
 
@@ -251,9 +251,9 @@
 
     <core-media-query query="min-width: 120.063em" querymatches="{{ devices.xxlarge }}"></core-media-query>
 
-    <animate-player id="move" animationlock="{{ animationLock }}" devices="{{ devices }}" path="{{ path }}" target="{{ target }}"></animate-player>
+    <animate-player id="move" animationlock="{{ animationLock }}" initialbackupposition="{{ initialBackupPosition }}" devices="{{ devices }}" path="{{ path }}" target="{{ target }}"></animate-player>
 
-    <game-player class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" devices="{{ devices }}" style="top: {{ backupPositionY }}; left: {{ backupPositionX }}" id="player"></game-player>
+    <game-player class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" devices="{{ devices }}" style="top: {{ backupPositionY }}; left: {{ backupPositionX }};" id="player"></game-player>
 
       <template repeat="{{ row, i in world }}">
 

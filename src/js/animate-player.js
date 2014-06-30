@@ -9,8 +9,6 @@ Polymer('animate-player', {
 
   pathChanged : function () {
     this.$.animation.target = this.target;
-    console.log('path=>', this.path);
-    console.log('Target=>', this.target);
     if (this.animationLock === false) {
       this.async(this.play);
     }
@@ -24,7 +22,10 @@ Polymer('animate-player', {
   },
 
   toTranslate : function (value, pixels) {
-    var result = `translate(${value[0] * pixels}px, ${value[1] * pixels}px)`;
+    var position = this.initialBackupPosition;
+    var result =
+      `translate(${(value[0] - position[0]) * pixels}px,
+      ${(value[1] - position[1]) * pixels}px)`;
     return result;
   }
   
