@@ -44,7 +44,7 @@ Polymer('socket-io', {
 
     //  Method to get a player by uid
     var getPlayerByUid = data => {
-      var selector = '[uid=' + data.uid + ']';
+      var selector = `[uid='${data.uid}']`;
       return this.parentNode.querySelector(selector);
     };
 
