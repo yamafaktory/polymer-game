@@ -24,7 +24,7 @@ Polymer('socket-io', {
 
     //  Method to remove a player from stage
     var removePlayer = data => {
-      var selector = '[uid=' + data.uid + ']';
+      var selector = `[uid='${data.uid}']`;
       var player = this.parentNode.querySelector(selector);
       this.parentNode.removeChild(player);
       console.info('Player disconnect:', data.uid);
@@ -33,7 +33,7 @@ Polymer('socket-io', {
     //  Method to set the first position of a player on stage
     var setPlayerPosition = data => {
       var {selector, x, y} = {
-        selector : '[uid=' + data.uid + ']',
+        selector : `[uid='${data.uid}']`,
         x : (data.position[0] * this.spriteSize),
         y : (data.position[1] * this.spriteSize)
       };
@@ -70,7 +70,7 @@ Polymer('socket-io', {
       //  Store uid
       this.uid = data.uid;
       //  Add players on stage
-      for (var property in this.player) {
+      for (var property in data.players) {
         //  But not the player itself
         if (property !== data.uid) {
           addPlayer(data);

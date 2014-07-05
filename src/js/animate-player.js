@@ -9,15 +9,19 @@ Polymer('animate-player', {
 
   pathChanged : function () {
     this.$.animation.target = this.target;
-    if (this.animationLock === false) {
+    if (this.target.id === 'player') {
+      if (!this.animationLock) {
+        //  Lock animation
+        this.animationLock = true;
+        //  Launch animation
+        this.async(this.play);
+      }
+    } else {
       this.async(this.play);
     }
   },
 
   play : function () {
-    //  Lock animation
-    this.animationLock = true;
-    //  Launch animation
     this.$.animation.play();
   },
 
