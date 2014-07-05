@@ -41,7 +41,7 @@
 
   </template>
 
-</polymer-element><polymer-element name="socket-io" attributes="devices path players position socket spriteSize target uid" assetpath="src/html/">
+</polymer-element><polymer-element name="socket-io" attributes="devices localstorageIsReady path players backupPosition socket spriteSize target uid" assetpath="src/html/">
 
 </polymer-element><polymer-element name="animate-heighten" noscript="" assetpath="src/html/">
 
@@ -123,7 +123,7 @@
 
   </template>
 
-</polymer-element><polymer-element name="animate-player" attributes="animationLock initialBackupPosition devices path target" assetpath="src/html/">
+</polymer-element><polymer-element name="animate-player" attributes="animationLock devices path players target" assetpath="src/html/">
 
   <template>
 
@@ -237,7 +237,7 @@
 
     <style>:host{width:100%;z-index:0}</style>
 
-    <socket-io socket="{{ socket }}" devices="{{ devices }}" path="{{ path }}" players="{{ players }}" position="{{ position }}" spritesize="{{ spriteSize }}" target="{{ target }}" uid="{{ uid }}"></socket-io>
+    <socket-io socket="{{ socket }}" devices="{{ devices }}" localstorageisready="{{ localstorageIsReady }}" path="{{ path }}" players="{{ players }}" backupposition="{{ backupPosition }}" spritesize="{{ spriteSize }}" target="{{ target }}" uid="{{ uid }}"></socket-io>
 
     <core-localstorage name="backupPosition" value="{{ backupPosition }}"></core-localstorage>
 
@@ -247,7 +247,7 @@
     <core-media-query query="(min-width: 90.063em) and (max-width: 120em)" querymatches="{{ devices.xlarge }}"></core-media-query>
     <core-media-query query="min-width: 120.063em" querymatches="{{ devices.xxlarge }}"></core-media-query>
 
-    <animate-player id="move" animationlock="{{ animationLock }}" initialbackupposition="{{ initialBackupPosition }}" devices="{{ devices }}" path="{{ path }}" target="{{ target }}"></animate-player>
+    <animate-player id="move" animationlock="{{ animationLock }}" devices="{{ devices }}" path="{{ path }}" players="{{ players }}" target="{{ target }}"></animate-player>
 
     <game-player class="{{ { medium: devices.medium, large: devices.large, xlarge: devices.xlarge, xxlarge: devices.xxlarge } | tokenList }}" devices="{{ devices }}" style="top: {{ backupPositionY }}; left: {{ backupPositionX }};" id="player"></game-player>
 

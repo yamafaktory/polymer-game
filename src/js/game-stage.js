@@ -5,39 +5,39 @@ Polymer('game-stage', {
     this.animationLock = false;
     //  Init default backup position
     this.backupPosition = [0, 0];
-    //  Init default initial backup position
-    this.initialBackupPosition = [0, 0];
     //  Init binary map for pathfinding
     this.binaryMap = [];
     //  Init devices for media queries
     this.devices = {};
+    //  State of localstorage
+    this.localstorageIsReady = false;
     //  Init move object for player motion
     this.path = [0, 0];
+    //  Init other players
+    this.players = {};
     //  Init player position
     this.position = {
       from : [0, 0],
       to   : [0, 0]
     };
-    //  Init other players
-    this.players = {};
     //  Init world map
     this.world = [];
     //  Get position from localstorage
     this.addEventListener('core-localstorage-load', event => {
+      //  Use localstorage position
       if (this.backupPosition !== null) {
         //  Generate left position
-        this.backupPositionX = (
-          this.backupPosition[0] * this.spriteSize
-        ) + 'px';
+        this.backupPositionX =
+          `${this.backupPosition[0] * this.spriteSize}px`;
         //  Generate top position
-        this.backupPositionY = (
-          this.backupPosition[1] * this.spriteSize
-        ) + 'px';
+        this.backupPositionY =
+          `${this.backupPosition[1] * this.spriteSize}px`;
         //  Set backup position as current
         this.position.from = this.backupPosition;
-        //  Store the initial position found from localstorage 
-        this.initialBackupPosition = this.backupPosition;
       }
+      //  Update localstorage state
+      //  as it will be used by socket-io
+      this.localstorageIsReady = true;
     });
   },
 
@@ -72,6 +72,13 @@ Polymer('game-stage', {
 
   //  Player position has changed
   playerPositionHasChanged : function () {
+    //  First update the target
+    this.target = {
+      //  as a DOM node
+      node  : this.$.player,
+      //  and as an uid
+      uid   : this.uid
+    };
     //  Backup the grid as its value is modified after path-finding
     var gridBackup = this.grid.clone();
     //  Then use the finder to generate an array of moves

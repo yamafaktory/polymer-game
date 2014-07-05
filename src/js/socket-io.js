@@ -7,8 +7,9 @@ Polymer('socket-io', {
 
   //  Set observers
   observe : {
-    'path'    : 'pathHasChanged',
-    'socket'  : 'socketReady'
+    'localstorageIsReady' : 'localstorageIsLoaded',
+    'path'                : 'pathHasChanged',
+    'socket'              : 'socketReady'
   },
 
   socketReady : function () {
@@ -58,17 +59,22 @@ Polymer('socket-io', {
     };
 
     //  First, tell the server that client is now ready
-    this.socket.emit('client ready');
-
-    this.socket.on('player first connection', data => {
+    //  since we have both the websocket and localstorage loaded
+    this.localstorageIsLoaded = function () {
       //  Send player position
-      this.socket.emit('player first position', {
-        position : this.position.from
+      this.socket.emit('client ready', {
+        position : this.backupPosition
       });
+    };
+    
+    //  Then the server will respond
+    this.socket.on('player first connection', data => {
       //  Update players
       this.players = data.players;
       //  Store uid
       this.uid = data.uid;
+      //  Store player initial position
+      this.players[data.uid].backupPosition = this.backupPosition;
       //  Add players on stage
       for (var property in data.players) {
         //  But not the player itself
@@ -86,6 +92,7 @@ Polymer('socket-io', {
     });
 
     this.socket.on('player first position', data => {
+      this.players = data.players;
       //  Set the position of a player 
       setPlayerPosition(data);
       console.info('Player id=', data.uid, ' position:', data.position);
@@ -93,12 +100,16 @@ Polymer('socket-io', {
 
     this.socket.on('player path changed', data => {
       //  Update targeted player
-      this.target = getPlayerByUid(data);
+      this.target = {
+        //  as a DOM node
+        node  : getPlayerByUid(data),
+        //  and as an uid
+        uid   : data.uid
+      };
       //  Keep track of path origin
       this.ownPath = false;
       //  and the path
       this.path = data.path;
-      console.log('path from server', this.path);
     });
 
     this.socket.on('player left', data => {

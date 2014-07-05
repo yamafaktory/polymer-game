@@ -5,7 +5,7 @@ module.exports = function (game) {
     //  When a new player is connected update game data
     ++game.players.number;
     game.players.uid[socket.id] = {
-      position : [0, 0]
+      backupPosition : [0, 0]
     };
 
     //  Then broadcast it to the other players
@@ -15,7 +15,15 @@ module.exports = function (game) {
     });
 
     //  When client is ready
-    socket.on('client ready', function () {
+    socket.on('client ready', function (data) {
+      //  Store player's backup position
+      game.players.uid[socket.id].backupPosition = data.position;
+      //  Keep other clients up to date
+      socket.broadcast.emit('player first position', {
+        players : game.players.uid,
+        position : data.position,
+        uid : socket.id
+      });
       //  Send the player's uid
       //  and the position of all the players including player
       socket.emit('player first connection', {
@@ -24,19 +32,8 @@ module.exports = function (game) {
       });
     });
 
-    //  When client send position
-    socket.on('player first position', function (data) {
-      console.log('player id =', socket.id, ' position =', data.position);
-      //  Keep other clients up to date
-      socket.broadcast.emit('player first position', {
-        position : data.position,
-        uid : socket.id
-      });
-    });
-
     //  When client send updated path
     socket.on('player path changed', function (data) {
-      console.log(data.path);
       //  Keep other clients up to date
       socket.broadcast.emit('player path changed', {
         path : data.path,
