@@ -1,22 +1,19 @@
-//  Import World
+//  Import World class
 import {World} from './world';
 
-var {pathFinding, io, socket} = {
-  //  Include npm pathfinding library
-  pathFinding : require('pathfinding'),
-  //  and npm socket.io-client library
-  io : require('socket.io-client')
-};
+//  Import whole modules without specific identifiers
+module pathFinding from 'pathfinding';
+module io from 'socket.io-client';
 
 //  Instanciate socket.io
 var socket = io('http://127.0.0.1:1337');
 
-//  Require polymer element scripts
-require('./socket-io');
-require('./animate-player');
-require('./game-player');
-require('./game-sprite');
-require('./game-stage');
+//  Import polymer element scripts
+import './socket-io';
+import './animate-player';
+import './game-player';
+import './game-sprite';
+import './game-stage';
 
 //  Create new World
 var polyworld = new World();
